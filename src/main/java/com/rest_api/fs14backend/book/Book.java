@@ -56,6 +56,7 @@ public class Book {
   
   @ManyToOne( optional = false)
   private Category category;
+
   public Book(long ISBN,
               String title,
               LocalDate publishedDate,
@@ -63,6 +64,7 @@ public class Book {
               Status status,
               String publishers,
               Category category
+
 //              Author author
   ) {
     this.ISBN = ISBN;

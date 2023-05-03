@@ -18,4 +18,5 @@ public class BookMapper {
 		book.getPublishers(),
 		category);
 	}
+
 }

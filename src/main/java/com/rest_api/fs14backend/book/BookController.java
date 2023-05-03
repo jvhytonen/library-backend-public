@@ -1,12 +1,12 @@
 package com.rest_api.fs14backend.book;
 
-
 import com.rest_api.fs14backend.category.Category;
 import com.rest_api.fs14backend.category.CategoryService;
 import com.rest_api.fs14backend.todo.Todo;
 import com.rest_api.fs14backend.todo.TodoDTO;
 import com.rest_api.fs14backend.todo.TodoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.UUID;
 @RequestMapping("api/v1/books")
 public class BookController {
   private final BookService bookService;
+
   
   @Autowired
   private CategoryService categoryService;
@@ -28,7 +29,9 @@ public class BookController {
     this.bookService = bookService;
   }
 
+
   @GetMapping("/")
+
   public List<Book> getBooks() {
     return bookService.getAllBooks();
   }
@@ -42,7 +45,6 @@ public class BookController {
   public void deleteBook(@PathVariable Long isbn) {
     bookService.deleteBook(isbn);
   }
-
   /*@PostMapping
   public void createOne(@RequestBody Book book) {
     bookService.addOneBook(book);
@@ -70,6 +72,10 @@ public class BookController {
      "publishers":"QP"
   }*/
   
+  @PostMapping
+  public void createOne(@RequestBody Book book) {
+    bookService.addOneBook(book);
+  }
   @PutMapping(value = "/{isbn}")
   public void updateBook(@PathVariable Long isbn, @RequestBody Book book) {
     bookService.updateBook(isbn, book);
