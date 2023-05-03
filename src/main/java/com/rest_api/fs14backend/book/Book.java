@@ -1,5 +1,6 @@
 package com.rest_api.fs14backend.book;
 
+import com.rest_api.fs14backend.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,13 +53,18 @@ public class Book {
     BORROWED,
     AVAILABLE
   }
+  
+  @ManyToOne( optional = false)
+  private Category category;
 
   public Book(long ISBN,
               String title,
               LocalDate publishedDate,
               String description,
               Status status,
-              String publishers
+              String publishers,
+              Category category
+
 //              Author author
   ) {
     this.ISBN = ISBN;
@@ -67,8 +73,9 @@ public class Book {
     this.description = description;
     this.status = status;
     this.publishers = publishers;
+    this.category = category;
 //    this.author = author;
-//    this.category = category;
+  
   }
 
 

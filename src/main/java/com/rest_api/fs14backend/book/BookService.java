@@ -1,5 +1,6 @@
 package com.rest_api.fs14backend.book;
 
+import com.rest_api.fs14backend.todo.Todo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,10 @@ public class BookService {
   }
   public void addOneBook(Book book) {
     bookRepository.save(book);
+  }
+  
+  public Book createOne(Book book) {
+    return bookRepository.save(book);
   }
 
   public Optional<Book> getBookById(Long isbn) {
