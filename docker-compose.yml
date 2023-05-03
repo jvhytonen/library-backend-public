@@ -3,7 +3,7 @@ services:
     container_name: library
     image: postgres
     environment:
-      POSTGRES_USER: quanbui
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Buidamquan1
       PGDATA: /data/postgres
     volumes:
