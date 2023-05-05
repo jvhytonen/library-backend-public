@@ -1,5 +1,6 @@
 package com.rest_api.fs14backend.user;
 
+import com.rest_api.fs14backend.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,12 @@ public class UserService {
     public User findById(UUID userId) {
         return userRepo.findById(userId).orElse(null);
     }
+
     public void deleteById(UUID userId) {
-        userRepo.deleteById(userId);
+        if (userRepo.findById(userId).isPresent()) {
+            userRepo.deleteById(userId);
+        } else {
+            throw new NotFoundException("User not found");
+        }
     }
 }
