@@ -11,10 +11,12 @@ import java.util.UUID;
 @Data
 public class BookDTO {
 	private UUID categoryId;
+	private UUID authorId;
 	private long ISBN;
 	private String title;
 	private LocalDate publishedDate;
 	private String description;
 	private Book.Status status;
 	private String publishers;
+
 }

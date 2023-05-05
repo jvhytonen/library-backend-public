@@ -1,12 +1,12 @@
 package com.rest_api.fs14backend.book;
 
+import com.rest_api.fs14backend.author.Author;
 import com.rest_api.fs14backend.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Entity
 @Table
@@ -45,9 +45,9 @@ public class Book {
   @Column(nullable = true)
   private String publishers;
 
-//  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//  @ManyToOne(optional = false)
-//  private  author;
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "author_id")
+  private Author author;
 
   enum Status {
     BORROWED,
@@ -55,6 +55,7 @@ public class Book {
   }
   
   @ManyToOne( optional = false)
+  @JoinColumn(name = "category_id")
   private Category category;
 
   public Book(long ISBN,
@@ -63,9 +64,8 @@ public class Book {
               String description,
               Status status,
               String publishers,
-              Category category
-
-//              Author author
+              Category category,
+              Author author
   ) {
     this.ISBN = ISBN;
     this.title = title;
@@ -74,48 +74,12 @@ public class Book {
     this.status = status;
     this.publishers = publishers;
     this.category = category;
-//    this.author = author;
+    this.author = author;
   
   }
-
-
   public Book (long ISBN, String title) {
     this.ISBN = ISBN;
     this.title = title;
-  }
-
-
-//  public Category getCategory() {
-//    return category;
-//  }
-
-//  public void setCategory(Category category) {
-//    this.category = category;
-//  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Book book = (Book) o;
-    return ISBN == book.ISBN && Objects.equals(title, book.title) && Objects.equals(publishedDate, book.publishedDate) && Objects.equals(description, book.description) && status == book.status && Objects.equals(publishers, book.publishers);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(ISBN, title, publishedDate, description, status, publishers);
-  }
-
-  @Override
-  public String toString() {
-    return "Book{" +
-            "ISBN=" + ISBN +
-            ", title='" + title + '\'' +
-            ", publishedDate=" + publishedDate +
-            ", description='" + description + '\'' +
-            ", status=" + status +
-            ", publishers='" + publishers + '\'' +
-            '}';
   }
 }
 

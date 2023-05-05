@@ -1,9 +1,9 @@
 services:
   db:
-    container_name: library
+    container_name:
     image: postgres
     environment:
-      POSTGRES_USER: quanbui
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Buidamquan1
       PGDATA: /data/postgres
     volumes:
