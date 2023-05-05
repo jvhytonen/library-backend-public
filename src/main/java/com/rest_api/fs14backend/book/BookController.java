@@ -1,12 +1,10 @@
 package com.rest_api.fs14backend.book;
 
+import com.rest_api.fs14backend.author.Author;
+import com.rest_api.fs14backend.author.AuthorService;
 import com.rest_api.fs14backend.category.Category;
 import com.rest_api.fs14backend.category.CategoryService;
-import com.rest_api.fs14backend.todo.Todo;
-import com.rest_api.fs14backend.todo.TodoDTO;
-import com.rest_api.fs14backend.todo.TodoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +19,9 @@ public class BookController {
   
   @Autowired
   private CategoryService categoryService;
+
+  @Autowired
+  private AuthorService authorService;
   
   @Autowired
   private BookMapper bookMapper;
@@ -30,8 +31,7 @@ public class BookController {
   }
 
 
-  @GetMapping("/")
-
+  @GetMapping
   public List<Book> getBooks() {
     return bookService.getAllBooks();
   }
@@ -55,9 +55,9 @@ public class BookController {
   public Book createOne(@RequestBody BookDTO bookDTO) {
     UUID categoryId = bookDTO.getCategoryId();
     Category category = categoryService.findById(categoryId);
-    
-    Book book = bookMapper.newBook(bookDTO, category);
-    
+    UUID authorId = bookDTO.getAuthorId();
+    Author author = authorService.getAuthorById(authorId);
+    Book book = bookMapper.newBook(bookDTO, category, author);
     return bookService.createOne(book);
   }
   

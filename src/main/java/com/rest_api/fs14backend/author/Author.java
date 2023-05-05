@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 
-@Entity(name = "author")
+@Entity
 @Table(name = "author")
 @Data
 @NoArgsConstructor
@@ -23,19 +23,12 @@ public class Author {
   private String name;
   @Column(nullable = true)
   private LocalDate dob;
-  //  @Column(nullable = true)
-//  private ArrayList<Book> books;
   @Column(nullable = true)
   private String description;
-
-  public String getDescription() {
-    return description;
-  }
 
   public Author( String name, LocalDate dob, String description) {
     this.name = name;
     this.dob = dob;
-//    this.books = books;
     this.description = description;
   }
 
@@ -44,4 +37,3 @@ public class Author {
     this.description = description;
   }
 }
-
