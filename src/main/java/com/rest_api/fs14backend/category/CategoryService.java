@@ -1,11 +1,11 @@
 package com.rest_api.fs14backend.category;
 
-import com.rest_api.fs14backend.book.Book;
-import com.rest_api.fs14backend.todo.Todo;
+import com.rest_api.fs14backend.author.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,8 +22,8 @@ public class CategoryService {
     return categoryRepository.findById(categoryId).orElse(null);
   }
   
-  public void deleteCategory(UUID id) {
-    Optional<Category> categoryToDelete = categoryRepository.findCategoryById(id);
+  public void delete(UUID id) {
+    Optional<Category> categoryToDelete = categoryRepository.findById(id);
     if (categoryToDelete.isPresent()) {
       categoryRepository.delete(categoryToDelete.get());
     } else {
@@ -32,11 +32,16 @@ public class CategoryService {
   }
   
   @Transactional
-  public void updateCategory(UUID id, Category newCategory) {
-    Optional<Category> categoryToEdit = categoryRepository.findCategoryById(id);
+  public Category update(UUID id, Category newCategory) {
+    Optional<Category> categoryToEdit = categoryRepository.findById(id);
     if (categoryToEdit.isPresent()) {
       categoryToEdit.get().setName(newCategory.getName());
-      
+      return newCategory;
     }
+    return null;
+  }
+
+  public List<Category> findAll() {
+    return categoryRepository.findAll();
   }
 }

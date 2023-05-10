@@ -4,6 +4,7 @@ import com.rest_api.fs14backend.author.Author;
 import com.rest_api.fs14backend.author.AuthorService;
 import com.rest_api.fs14backend.category.Category;
 import com.rest_api.fs14backend.category.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/books")
+@RequiredArgsConstructor
 public class BookController {
   private final BookService bookService;
   
@@ -24,11 +26,6 @@ public class BookController {
   
   @Autowired
   private BookMapper bookMapper;
-
-  public BookController( BookService bookService) {
-    this.bookService = bookService;
-  }
-
 
   @GetMapping("/")
   public List<Book> getBooks() {
@@ -44,11 +41,6 @@ public class BookController {
   public void deleteBook(@PathVariable Long isbn) {
     bookService.deleteBook(isbn);
   }
-
-  /*@PostMapping
-  public void createOne(@RequestBody Book book) {
-    bookService.addOneBook(book);
-  }*/
   
   //creating a new book
   @PostMapping("/")

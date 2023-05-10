@@ -16,7 +16,6 @@ public class BookDTO {
 	private String title;
 	private LocalDate publishedDate;
 	private String description;
-	private Book.Status status;
 	private String publishers;
 
 }

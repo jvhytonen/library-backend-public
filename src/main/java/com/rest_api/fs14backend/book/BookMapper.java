@@ -11,7 +11,6 @@ public class BookMapper {
 		book.getTitle(),
 		book.getPublishedDate(),
 		book.getDescription(),
-		book.getStatus(),
 		book.getPublishers(),
 		category, author);
 	}

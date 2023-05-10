@@ -1,6 +1,6 @@
 package com.rest_api.fs14backend.category;
 
-import com.rest_api.fs14backend.book.Book;
+import com.rest_api.fs14backend.author.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,32 +12,33 @@ import java.util.UUID;
 @RequestMapping("api/v1/categories")
 public class CategoryController {
 
-  @Autowired
-  private CategoryRepository repo;
-  
+ /* @Autowired
+  private CategoryRepository repo;*/
   @Autowired
   private CategoryService categoryService;
 
   @PostMapping("/")
   public Category createOne(@RequestBody Category category) {
-    return repo.save(category);
+    return categoryService.createOne(category);
   }
   
   @GetMapping("/")
-  public List<Category> getAllCategories(){
-    return repo.findAll();
+  public List<Category> getAll(){
+    return categoryService.findAll();
+  }
+
+  @GetMapping("/{id}")
+  public Category getById(@PathVariable UUID id) {
+      return categoryService.findById(id);
+  }
+  @DeleteMapping("/{id}")
+  public void deleteOne(@PathVariable UUID id) {
+    categoryService.delete(id);
   }
   
-  
-  
-  @DeleteMapping(value = "/{id}")
-  public void deleteBook(@PathVariable UUID id) {
-    categoryService.deleteCategory(id);
-  }
-  
-  @PutMapping(value = "/{id}")
-  public void updateBook(@PathVariable UUID id, @RequestBody Category category) {
-    categoryService.updateCategory(id, category);
+  @PutMapping("/{id}")
+  public Category updateBook(@PathVariable UUID id, @RequestBody Category category) {
+    return categoryService.update(id, category);
   }
   
 }

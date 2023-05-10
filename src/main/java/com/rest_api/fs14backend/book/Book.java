@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table
@@ -25,7 +26,7 @@ public class Book {
           strategy = GenerationType.SEQUENCE,
           generator = "book_sequence"
   )
-  private long id;
+  private UUID id;
 
   @Column( unique = true)
   private long ISBN;
@@ -39,20 +40,12 @@ public class Book {
   @Column(nullable = true)
   private String description;
 
-  @Enumerated(EnumType.STRING)
-  private Status status;
-
   @Column(nullable = true)
   private String publishers;
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "author_id")
   private Author author;
-
-  enum Status {
-    BORROWED,
-    AVAILABLE
-  }
   
   @ManyToOne( optional = false)
   @JoinColumn(name = "category_id")
@@ -62,7 +55,6 @@ public class Book {
               String title,
               LocalDate publishedDate,
               String description,
-              Status status,
               String publishers,
               Category category,
               Author author
@@ -71,7 +63,6 @@ public class Book {
     this.title = title;
     this.publishedDate = publishedDate;
     this.description = description;
-    this.status = status;
     this.publishers = publishers;
     this.category = category;
     this.author = author;
