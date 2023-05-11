@@ -23,6 +23,7 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String name;
+    @Column(columnDefinition = "boolean default true")
     private boolean isAdmin;
 
     @OneToMany(mappedBy = "user")
@@ -33,5 +34,8 @@ public class User {
     @ManyToMany
     @JoinTable(name="USER_LOANS")
     private List<Book> myLoans;*/
-
+public User(String name, boolean isAdmin){
+    this.name = name;
+    this.isAdmin = isAdmin;
+}
 }

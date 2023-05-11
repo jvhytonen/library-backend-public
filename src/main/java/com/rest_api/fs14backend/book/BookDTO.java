@@ -12,7 +12,7 @@ import java.util.UUID;
 public class BookDTO {
 	private UUID categoryId;
 	private UUID authorId;
-	private long ISBN;
+	private String isbn;
 	private String title;
 	private LocalDate publishedDate;
 	private String description;

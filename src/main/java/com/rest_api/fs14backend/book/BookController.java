@@ -32,17 +32,16 @@ public class BookController {
     return bookService.getAllBooks();
   }
 
-  @GetMapping(value = "/{isbn}")
-  public Optional<Book> getBookByIsbn(@PathVariable Long isbn) {
-    return bookService.getBookById(isbn);
+  @GetMapping(value = "/{id}")
+  public Optional<Book> getBookById(@PathVariable UUID id) {
+    return bookService.getBookById(id);
   }
 
-  @DeleteMapping(value = "/{isbn}")
-  public void deleteBook(@PathVariable Long isbn) {
-    bookService.deleteBook(isbn);
+  @DeleteMapping(value = "/{id}")
+  public void deleteBook(@PathVariable UUID id) {
+    bookService.deleteBook(id);
   }
-  
-  //creating a new book
+
   @PostMapping("/")
   public Book createOne(@RequestBody BookDTO bookDTO) {
     UUID categoryId = bookDTO.getCategoryId();
@@ -52,20 +51,9 @@ public class BookController {
     Book book = bookMapper.newBook(bookDTO, category, author);
     return bookService.createOne(book);
   }
-  
-  //json value for post method
-  /*{
-    "categoryId":"81d1b149-0f37-4c21-aca8-69d6975aee43",
-     "isbn":"1234",
-     "title":"A Haunted House",
-     "publishedDate":"2000-10-31",
-     "description":"Very creepy",
-     "status":"AVAILABLE",
-     "publishers":"QP"
-  }*/
-  
-  @PutMapping(value = "/{isbn}")
-  public void updateBook(@PathVariable Long isbn, @RequestBody Book book) {
-    bookService.updateBook(isbn, book);
+
+  @PutMapping(value = "/{id}")
+  public void updateBook(@PathVariable UUID id, @RequestBody Book book) {
+    bookService.updateBook(id, book);
   }
 }

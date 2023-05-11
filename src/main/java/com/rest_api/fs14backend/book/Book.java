@@ -5,6 +5,7 @@ import com.rest_api.fs14backend.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -16,20 +17,12 @@ import java.util.UUID;
 public class Book {
 
   @Id
-  @Column(name = "id")
-  @SequenceGenerator(
-          name = "book_sequence",
-          sequenceName = "book_sequence",
-          allocationSize = 1
-  )
-  @GeneratedValue(
-          strategy = GenerationType.SEQUENCE,
-          generator = "book_sequence"
-  )
+  @GeneratedValue
+  @UuidGenerator
   private UUID id;
 
-  @Column( unique = true)
-  private long ISBN;
+  @Column
+  private String isbn;
 
   @Column(nullable = true)
   private String title;
@@ -44,14 +37,14 @@ public class Book {
   private String publishers;
 
   @ManyToOne(optional = false)
-  @JoinColumn(name = "author_id")
+/*  @JoinColumn(name = "author_id") */
   private Author author;
   
   @ManyToOne( optional = false)
-  @JoinColumn(name = "category_id")
+  /*@JoinColumn(name = "category_id")*/
   private Category category;
 
-  public Book(long ISBN,
+  public Book(String isbn,
               String title,
               LocalDate publishedDate,
               String description,
@@ -59,7 +52,7 @@ public class Book {
               Category category,
               Author author
   ) {
-    this.ISBN = ISBN;
+    this.isbn = isbn;
     this.title = title;
     this.publishedDate = publishedDate;
     this.description = description;
@@ -67,10 +60,6 @@ public class Book {
     this.category = category;
     this.author = author;
   
-  }
-  public Book (long ISBN, String title) {
-    this.ISBN = ISBN;
-    this.title = title;
   }
 }
 
