@@ -1,6 +1,6 @@
 package com.rest_api.fs14backend.book;
 
-import com.rest_api.fs14backend.todo.Todo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +10,7 @@ import java.util.UUID;
 
 @Service
 public class BookService {
+
   private final BookRepository bookRepository;
 
   public BookService(BookRepository bookRepository) {
@@ -38,7 +39,7 @@ public class BookService {
   }
 
   @Transactional
-  public void updateBook(UUID id, Book updatedBook) {
+  public void updateBook(UUID id, BookDTO updatedBook) {
     Optional<Book> bookToEdit = bookRepository.findById(id);
     if (bookToEdit.isPresent()) {
       bookToEdit.get().setDescription(updatedBook.getDescription());

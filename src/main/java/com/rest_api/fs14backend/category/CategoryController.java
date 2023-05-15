@@ -1,11 +1,10 @@
 package com.rest_api.fs14backend.category;
 
-import com.rest_api.fs14backend.author.Author;
+import com.rest_api.fs14backend.category.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -17,9 +16,13 @@ public class CategoryController {
   @Autowired
   private CategoryService categoryService;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
   @PostMapping("/")
-  public Category createOne(@RequestBody Category category) {
-    return categoryService.createOne(category);
+  public Category createOne(@RequestBody CategoryDTO categoryDTO) throws Exception {
+      Category newCategory = CategoryMapper.newCategory(categoryDTO);
+      return categoryService.createOne(newCategory);
   }
   
   @GetMapping("/")
@@ -28,16 +31,16 @@ public class CategoryController {
   }
 
   @GetMapping("/{id}")
-  public Category getById(@PathVariable UUID id) {
+  public Category getById(@PathVariable UUID id) throws Exception {
       return categoryService.findById(id);
   }
   @DeleteMapping("/{id}")
-  public void deleteOne(@PathVariable UUID id) {
+  public void deleteOne(@PathVariable UUID id) throws Exception {
     categoryService.delete(id);
   }
   
   @PutMapping("/{id}")
-  public Category updateBook(@PathVariable UUID id, @RequestBody Category category) {
+  public CategoryDTO updateCategory(@PathVariable UUID id, @RequestBody CategoryDTO category) throws Exception {
     return categoryService.update(id, category);
   }
   

@@ -1,6 +1,5 @@
 package com.rest_api.fs14backend.author;
 
-import com.rest_api.fs14backend.category.Category;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,13 @@ public class AuthorService {
   }
 
   public Author getAuthorById (UUID id) {
-    return authorRepository.findAuthorById(id);
+    Optional<Author> author = Optional.ofNullable(authorRepository.findAuthorById(id));
+    if (author.isPresent()) {
+      return authorRepository.findAuthorById(id);
+    }
+    else {
+      throw new IllegalStateException("Category with " + id + " not found");
+    }
   }
   public Author createOne(Author newAuthor) {
     List<Author> authorList = authorRepository.findAll();
@@ -26,7 +31,9 @@ public class AuthorService {
         throw new IllegalStateException("Author " + newAuthor.getName() +  " already exist");
       }
     }
-    return authorRepository.save(newAuthor);
+    //AuthorDTO needs to be converted to Author before saving.
+    Author authorEntity = new Author(newAuthor.getName(), newAuthor.getDescription());
+    return authorRepository.save(authorEntity);
   }
 
   public List<Author> findAll()  {
@@ -42,13 +49,10 @@ public class AuthorService {
     }
   }
   @Transactional
-  public Author update(UUID id, Author updatedAuthor) {
-    Optional<Author> authorToEdit = authorRepository.findById(id);
-    if (authorToEdit.isPresent()) {
-      authorToEdit.get().setName(updatedAuthor.getName());
-      authorToEdit.get().setDescription(updatedAuthor.getDescription());
-      return updatedAuthor;
-    }
-    return null;
+  public Author update(UUID id, AuthorDTO updatedAuthor) throws Exception {
+    Author authorToEdit = authorRepository.findById(id).orElseThrow(() -> new Exception("No category with such id found!"));
+      authorToEdit.setName(updatedAuthor.getName());
+      authorToEdit.setDescription(updatedAuthor.getDescription());
+      return authorToEdit;
   }
 }

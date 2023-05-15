@@ -37,11 +37,11 @@ public class Book {
   private String publishers;
 
   @ManyToOne(optional = false)
-/*  @JoinColumn(name = "author_id") */
+  @JoinColumn(name = "author_id")
   private Author author;
   
   @ManyToOne( optional = false)
-  /*@JoinColumn(name = "category_id")*/
+  @JoinColumn(name = "category_id")
   private Category category;
 
   public Book(String isbn,

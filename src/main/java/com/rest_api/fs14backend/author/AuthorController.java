@@ -1,7 +1,7 @@
 package com.rest_api.fs14backend.author;
 
-
 import com.rest_api.fs14backend.category.Category;
+import com.rest_api.fs14backend.category.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,15 +28,17 @@ public class AuthorController {
     return authorService.getAuthorById(id);
   }
   @PostMapping("/")
-  public Author addOne(@RequestBody Author author) {
-    return authorService.createOne(author);
+  public Author addOne(@RequestBody AuthorDTO authorDTO) {
+
+    Author newAuthor = AuthorMapper.newAuthor(authorDTO);
+    return authorService.createOne(newAuthor);
   }
   @DeleteMapping(value = "/{id}")
   public void delete(@PathVariable UUID id) {
     authorService.delete(id);
   }
   @PutMapping("/{id}")
-  public Author update(@PathVariable UUID id, @RequestBody Author author) {
+  public Author update(@PathVariable UUID id, @RequestBody AuthorDTO author) throws Exception {
     return authorService.update(id, author);
   }
 }

@@ -43,7 +43,7 @@ public class BookController {
   }
 
   @PostMapping("/")
-  public Book createOne(@RequestBody BookDTO bookDTO) {
+  public Book createOne(@RequestBody BookDTO bookDTO) throws Exception {
     UUID categoryId = bookDTO.getCategoryId();
     Category category = categoryService.findById(categoryId);
     UUID authorId = bookDTO.getAuthorId();
@@ -53,7 +53,7 @@ public class BookController {
   }
 
   @PutMapping(value = "/{id}")
-  public void updateBook(@PathVariable UUID id, @RequestBody Book book) {
+  public void updateBook(@PathVariable UUID id, @RequestBody BookDTO book) {
     bookService.updateBook(id, book);
   }
 }
