@@ -1,14 +1,11 @@
 package com.rest_api.fs14backend.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.rest_api.fs14backend.book.Book;
-import com.rest_api.fs14backend.loan.Loan;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,20 +19,29 @@ public class User {
     private UUID id;
 
     @Column(unique = true, nullable = false)
+    private String username;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+
+    @Column(nullable = false)
     private String name;
-    @Column(columnDefinition = "boolean default true")
-    private boolean isAdmin;
+    @Column(nullable = false)
+    private String email;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
-    @OneToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    private List<Loan> loans;
+    public static enum Role {
+        USER,
+        ADMIN
+    }
 
-    /*
-    @ManyToMany
-    @JoinTable(name="USER_LOANS")
-    private List<Book> myLoans;*/
-public User(String name, boolean isAdmin){
-    this.name = name;
-    this.isAdmin = isAdmin;
+public User(String username, String password, String name, String email, Role role){
+   this.username = username;
+   this.password = password;
+   this.name = name;
+   this.email = email;
+   this.role = role;
 }
 }

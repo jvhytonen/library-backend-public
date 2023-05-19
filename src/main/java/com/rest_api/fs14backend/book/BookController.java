@@ -33,7 +33,7 @@ public class BookController {
   }
 
   @GetMapping(value = "/{id}")
-  public Optional<Book> getBookById(@PathVariable UUID id) {
+  public Book getBookById(@PathVariable UUID id) throws Exception {
     return bookService.getBookById(id);
   }
 

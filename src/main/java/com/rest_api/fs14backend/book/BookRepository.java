@@ -10,7 +10,4 @@ import java.util.UUID;
 @Repository
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
-/*@Query("SELECT s FROM Book s WHERE s.ISBN = ?1")
-  Optional<Book> findBookByISBN(UUID id);
-}*/
 }

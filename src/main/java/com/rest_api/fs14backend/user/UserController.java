@@ -27,12 +27,6 @@ public class UserController {
         return Optional.ofNullable(userService.findById(id));
     }
 
-    @GetMapping(path="/{id}/loans")
-    public Optional<List<UserLoanDTO>> getLoansByUserId(@PathVariable("id") UUID id) {
-        return Optional.ofNullable(userService.findById(id))
-                .map(User::getLoans)
-                .map(loans -> loans.stream().map(UserLoanDTO::fromLoan).collect(Collectors.toList()));
-    }
     @DeleteMapping(path="/{id}")
     public void deleteUserById(@PathVariable("id") UUID id){
         userService.deleteById(id);

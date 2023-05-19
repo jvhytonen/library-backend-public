@@ -25,8 +25,9 @@ public class BookService {
     return bookRepository.save(book);
   }
 
-  public Optional<Book> getBookById(UUID id) {
-    return bookRepository.findById(id);
+  public Book getBookById(UUID id) throws Exception {
+    Book bookEntity = bookRepository.findById(id).orElseThrow(() -> new Exception("No category with such id found!"));
+    return bookEntity;
   }
 
   public void deleteBook(UUID id) {
