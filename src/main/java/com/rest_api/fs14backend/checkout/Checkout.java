@@ -9,6 +9,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
 import java.util.UUID;
+
 @Entity
 @Table
 @Data
@@ -25,7 +26,7 @@ public class Checkout {
     @JoinColumn(name = "user_id")
     private User user;
     @OneToOne
-    @JoinColumn(name= "copy_id")
+    @JoinColumn(name = "copy_id")
     private BookCopy copy;
     @Column(nullable = false)
     private boolean isBorrowed;

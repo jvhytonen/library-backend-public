@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
 @Service
 public class BookCopyService {
 
@@ -12,6 +13,7 @@ public class BookCopyService {
     public BookCopyService(BookCopyRepository bookCopyRepository) {
         this.bookCopyRepository = bookCopyRepository;
     }
+
     public List<BookCopy> getAllBookCopies() {
         return bookCopyRepository.findAll();
     }

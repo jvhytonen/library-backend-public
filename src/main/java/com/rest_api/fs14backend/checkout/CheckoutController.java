@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+
 @CrossOrigin(origins = "http://127.0.0.1:5173/")
 @RestController
 @RequestMapping("api/v1/checkouts")
@@ -26,7 +27,7 @@ public class CheckoutController {
 
     @PutMapping("/return")
     public Checkout returnBook(@RequestBody CheckoutDTO checkoutDTO) throws Exception {
-       return checkoutService.returnBook(checkoutDTO);
+        return checkoutService.returnBook(checkoutDTO);
     }
 
     @PostMapping("/")
