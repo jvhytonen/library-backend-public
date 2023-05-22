@@ -29,13 +29,14 @@ public class Checkout {
     @JoinColumn(name = "copy_id")
     private BookCopy copy;
     @Column(nullable = false)
-    private boolean isBorrowed;
+    private boolean isReturned;
 
-    public Checkout(Date startTime, Date endTime, User user, BookCopy copy) {
+    public Checkout(boolean isReturned, Date startTime, Date endTime, User user, BookCopy copy) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.user = user;
         this.copy = copy;
+        this.isReturned = isReturned;
 
     }
 }

@@ -16,51 +16,52 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Book {
 
-  @Id
-  @GeneratedValue
-  @UuidGenerator
-  private UUID id;
+    @Id
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
 
-  @Column
-  private String isbn;
+    @Column
+    private String isbn;
 
-  @Column(nullable = true)
-  private String title;
+    @Column(nullable = true)
+    private String title;
 
-  @Column(nullable = true)
-  private LocalDate publishedDate;
+    @Column(nullable = true)
+    private int publishedDate;
 
-  @Column(nullable = true)
-  private String description;
+    @Column(nullable = true)
+    private String description;
 
-  @Column(nullable = true)
-  private String publishers;
+    @Column(nullable = true)
+    private String publisher;
 
-  @ManyToOne(optional = false)
-  @JoinColumn(name = "author_id")
-  private Author author;
-  
-  @ManyToOne( optional = false)
-  @JoinColumn(name = "category_id")
-  private Category category;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "author_id")
+    private Author author;
 
-  public Book(String isbn,
-              String title,
-              LocalDate publishedDate,
-              String description,
-              String publishers,
-              Category category,
-              Author author
-  ) {
-    this.isbn = isbn;
-    this.title = title;
-    this.publishedDate = publishedDate;
-    this.description = description;
-    this.publishers = publishers;
-    this.category = category;
-    this.author = author;
-  
-  }
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Book(String isbn,
+                String title,
+                int yearPublished,
+                String imageUrl,
+                String description,
+                String publisher,
+                Category category,
+                Author author
+    ) {
+        this.isbn = isbn;
+        this.title = title;
+        this.publishedDate = publishedDate;
+        this.description = description;
+        this.publisher = publisher;
+        this.category = category;
+        this.author = author;
+
+    }
 }
 
 

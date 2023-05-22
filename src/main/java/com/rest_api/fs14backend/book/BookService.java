@@ -40,14 +40,12 @@ public class BookService {
   }
 
   @Transactional
-  public void updateBook(UUID id, BookDTO updatedBook) {
-    Optional<Book> bookToEdit = bookRepository.findById(id);
-    if (bookToEdit.isPresent()) {
-      bookToEdit.get().setDescription(updatedBook.getDescription());
-      bookToEdit.get().setIsbn(updatedBook.getIsbn());
-      bookToEdit.get().setPublishedDate(updatedBook.getPublishedDate());
-      bookToEdit.get().setTitle(updatedBook.getTitle());
-      bookToEdit.get().setPublishers(updatedBook.getPublishers());
-    }
+  public void updateBook(UUID id, BookDTO updatedBook) throws Exception {
+   Book bookToEdit = bookRepository.findById(id).orElseThrow(() -> new Exception("No category with such id found!"));
+      bookToEdit.setDescription(updatedBook.getDescription());
+      bookToEdit.setIsbn(updatedBook.getIsbn());
+      bookToEdit.setPublishedDate(updatedBook.getYearPublished());
+      bookToEdit.setTitle(updatedBook.getTitle());
+      bookToEdit.setPublisher(updatedBook.getPublisher());
   }
 }

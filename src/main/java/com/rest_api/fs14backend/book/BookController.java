@@ -53,7 +53,7 @@ public class BookController {
   }
 
   @PutMapping(value = "/{id}")
-  public void updateBook(@PathVariable UUID id, @RequestBody BookDTO book) {
+  public void updateBook(@PathVariable UUID id, @RequestBody BookDTO book) throws Exception {
     bookService.updateBook(id, book);
   }
 }

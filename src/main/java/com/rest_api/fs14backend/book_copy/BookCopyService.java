@@ -18,6 +18,16 @@ public class BookCopyService {
         return bookCopyRepository.findAll();
     }
 
+    public List<BookCopy> getAllCopiesById(UUID bookId) {
+        List<BookCopy> allCopies = bookCopyRepository.findAll();
+        List<BookCopy> copiesById = null;
+        for (BookCopy copy : allCopies) {
+            if (bookId.equals(copy.getBook().getId())){
+                copiesById.add(copy);
+            }
+        }
+        return copiesById;
+    }
     public BookCopy createOne(BookCopy copy) {
         return bookCopyRepository.save(copy);
     }

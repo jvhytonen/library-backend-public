@@ -10,8 +10,5 @@ import java.util.UUID;
 @Data
 public class CheckoutDTO {
     private UUID userId;
-    private UUID bookId;
-    private Date startTime;
-    private Date endTime;
-    private boolean isBorrowed;
+    private UUID copyId;
 }

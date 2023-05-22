@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://127.0.0.1:5173/")
@@ -23,15 +24,18 @@ public class CheckoutController {
     @Autowired
     private BookCopyService bookCopyService;
 
-    private CheckoutMapper checkoutMapper;
+    @GetMapping("/")
+    public List<Checkout> getAll() {
+        return checkoutService.findAll();
+    }
 
-    @PutMapping("/return")
+    @PostMapping("/return/")
     public Checkout returnBook(@RequestBody CheckoutDTO checkoutDTO) throws Exception {
         return checkoutService.returnBook(checkoutDTO);
     }
 
-    @PostMapping("/")
-    public Checkout createOne(@RequestBody CheckoutDTO checkoutDTO) throws Exception {
-        return checkoutService.borrowBook(checkoutDTO);
+    @PostMapping("/borrow/")
+    public Checkout borrowBook(@RequestBody CheckoutDTO checkoutDTO) throws Exception {
+       return checkoutService.borrowBook(checkoutDTO);
     }
 }
