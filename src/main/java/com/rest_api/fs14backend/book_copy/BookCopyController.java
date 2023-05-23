@@ -26,8 +26,7 @@ public class BookCopyController {
     @PostMapping("/")
     public BookCopy createOne(@RequestBody BookCopyDTO bookCopyDTO) throws Exception {
         UUID bookId = bookCopyDTO.getBookId();
-        Book book = new Book();
-        book.setId(bookId);
+        Book book = bookService.getBookById(bookId);
         BookCopy copy = new BookCopy(book);
         return bookCopyService.createOne(copy);
     }

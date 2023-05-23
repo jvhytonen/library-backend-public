@@ -25,11 +25,11 @@ public class Checkout {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "copy_id")
     private BookCopy copy;
     @Column(nullable = false)
-    private boolean isReturned;
+    private boolean isReturned = false;
 
     public Checkout(boolean isReturned, Date startTime, Date endTime, User user, BookCopy copy) {
         this.startTime = startTime;

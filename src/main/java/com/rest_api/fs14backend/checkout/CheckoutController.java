@@ -1,15 +1,12 @@
 package com.rest_api.fs14backend.checkout;
 
-import com.rest_api.fs14backend.book_copy.BookCopy;
 import com.rest_api.fs14backend.book_copy.BookCopyService;
-import com.rest_api.fs14backend.user.User;
 import com.rest_api.fs14backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @CrossOrigin(origins = "http://127.0.0.1:5173/")
 @RestController

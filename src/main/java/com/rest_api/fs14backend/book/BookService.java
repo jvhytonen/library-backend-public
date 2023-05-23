@@ -44,7 +44,7 @@ public class BookService {
    Book bookToEdit = bookRepository.findById(id).orElseThrow(() -> new Exception("No category with such id found!"));
       bookToEdit.setDescription(updatedBook.getDescription());
       bookToEdit.setIsbn(updatedBook.getIsbn());
-      bookToEdit.setPublishedDate(updatedBook.getYearPublished());
+      bookToEdit.setYearPublished(updatedBook.getYearPublished());
       bookToEdit.setTitle(updatedBook.getTitle());
       bookToEdit.setPublisher(updatedBook.getPublisher());
   }

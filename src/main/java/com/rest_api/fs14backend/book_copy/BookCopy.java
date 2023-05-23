@@ -1,5 +1,7 @@
 package com.rest_api.fs14backend.book_copy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.rest_api.fs14backend.book.Book;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -18,6 +20,7 @@ public class BookCopy {
     @UuidGenerator
     private UUID copyId;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "book_id")
     private Book book;

@@ -1,13 +1,19 @@
 package com.rest_api.fs14backend.book;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import com.rest_api.fs14backend.author.Author;
+import com.rest_api.fs14backend.book_copy.BookCopy;
 import com.rest_api.fs14backend.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,7 +34,7 @@ public class Book {
     private String title;
 
     @Column(nullable = true)
-    private int publishedDate;
+    private int yearPublished;
 
     @Column(nullable = true)
     private String description;
@@ -44,6 +50,10 @@ public class Book {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "book")
+    private List<BookCopy> copies;
+
     public Book(String isbn,
                 String title,
                 int yearPublished,
@@ -55,12 +65,11 @@ public class Book {
     ) {
         this.isbn = isbn;
         this.title = title;
-        this.publishedDate = publishedDate;
+        this.yearPublished = yearPublished;
         this.description = description;
         this.publisher = publisher;
         this.category = category;
         this.author = author;
-
     }
 }
 

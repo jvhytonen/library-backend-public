@@ -2,6 +2,7 @@ package com.rest_api.fs14backend.book_copy;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class BookCopyService {
 
     public List<BookCopy> getAllCopiesById(UUID bookId) {
         List<BookCopy> allCopies = bookCopyRepository.findAll();
-        List<BookCopy> copiesById = null;
+        List<BookCopy> copiesById = new ArrayList<>();
         for (BookCopy copy : allCopies) {
             if (bookId.equals(copy.getBook().getId())){
                 copiesById.add(copy);
