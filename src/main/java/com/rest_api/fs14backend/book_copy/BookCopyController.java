@@ -23,6 +23,10 @@ public class BookCopyController {
         return bookCopyService.getAllBookCopies();
     }
 
+    @GetMapping("/{id}")
+    public List<BookCopy> getCopiesStatus(@PathVariable UUID id) throws Exception {
+        return bookCopyService.getCopyStatus(id);
+    }
     @PostMapping("/")
     public BookCopy createOne(@RequestBody BookCopyDTO bookCopyDTO) throws Exception {
         UUID bookId = bookCopyDTO.getBookId();

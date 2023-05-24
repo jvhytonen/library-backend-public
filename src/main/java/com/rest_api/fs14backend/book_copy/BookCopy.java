@@ -2,7 +2,9 @@ package com.rest_api.fs14backend.book_copy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rest_api.fs14backend.book.Book;
+import com.rest_api.fs14backend.checkout.Checkout;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,10 +22,13 @@ public class BookCopy {
     @UuidGenerator
     private UUID copyId;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    @OneToOne(mappedBy = "copy")
+    private Checkout latestCheckout;
 
     public BookCopy(Book book) {
         this.book = book;

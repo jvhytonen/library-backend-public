@@ -34,10 +34,10 @@ public class BookController {
   @GetMapping("/")
   public List<Book> getBooks() {
     List<Book> books = bookService.getAllBooks();
-    for (Book book : books) {
+    /*for (Book book : books) {
       List<BookCopy> copies = bookCopyService.getAllCopiesById(book.getId());
       book.setCopies(copies);
-    }
+    }*/
     return books;
   }
 

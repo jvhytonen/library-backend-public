@@ -1,5 +1,6 @@
 package com.rest_api.fs14backend.checkout;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rest_api.fs14backend.book_copy.BookCopy;
 import com.rest_api.fs14backend.user.User;
 import jakarta.persistence.*;
@@ -25,6 +26,7 @@ public class Checkout {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "copy_id")
     private BookCopy copy;

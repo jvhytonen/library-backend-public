@@ -50,10 +50,6 @@ public class Book {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "book")
-    private List<BookCopy> copies;
-
     public Book(String isbn,
                 String title,
                 int yearPublished,
