@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +35,10 @@ public class Book {
     private String title;
 
     @Column(nullable = true)
-    private int yearPublished;
+    private Date yearPublished;
+
+    @Column(nullable = true)
+    private String imageUrl;
 
     @Column(nullable = true)
     private String description;
@@ -52,7 +56,7 @@ public class Book {
 
     public Book(String isbn,
                 String title,
-                int yearPublished,
+                Date yearPublished,
                 String imageUrl,
                 String description,
                 String publisher,
@@ -63,6 +67,7 @@ public class Book {
         this.title = title;
         this.yearPublished = yearPublished;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.publisher = publisher;
         this.category = category;
         this.author = author;

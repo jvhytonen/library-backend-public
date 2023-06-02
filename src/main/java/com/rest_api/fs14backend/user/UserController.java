@@ -1,6 +1,7 @@
 package com.rest_api.fs14backend.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://127.0.0.1:5173/")
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
@@ -15,8 +17,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/")
-    public User addOne(@RequestBody User user) {
-        return userService.addOne(user);
+    public ResponseEntity<User> addOne(@RequestBody User user) {
+        User newUser = userService.addOne(user);
+        return ResponseEntity.ok(newUser);
     }
 
     @GetMapping("/")
@@ -25,12 +28,13 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<User> getUserById(@PathVariable("id") UUID id) {
-        return Optional.ofNullable(userService.findById(id));
+    public User getUserById(@PathVariable("id") UUID id) {
+        return userService.findById(id);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteUserById(@PathVariable("id") UUID id) {
-        userService.deleteById(id);
+    public ResponseEntity<User> deleteUserById(@PathVariable("id") UUID id) {
+        User userToBeDeleted = userService.delete(id);
+        return ResponseEntity.ok(userToBeDeleted);
     }
 }

@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,8 +28,8 @@ public class BookCopy {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToOne(mappedBy = "copy")
-    private Checkout latestCheckout;
+    @OneToMany(mappedBy = "copy")
+    private List<Checkout> checkouts;
 
     public BookCopy(Book book) {
         this.book = book;

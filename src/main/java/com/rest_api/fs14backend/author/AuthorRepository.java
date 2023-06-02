@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, UUID> {
 
-  @Query("SELECT s FROM Author s WHERE s.id = ?1")
-  public Author findAuthorById(UUID id);
+    @Query("SELECT s FROM Author s WHERE s.id = ?1")
+    public Author findAuthorById(UUID id);
 }
 

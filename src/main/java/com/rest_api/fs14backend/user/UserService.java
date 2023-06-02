@@ -24,11 +24,10 @@ public class UserService {
         return userRepo.findById(userId).orElse(null);
     }
 
-    public void deleteById(UUID userId) {
-        if (userRepo.findById(userId).isPresent()) {
-            userRepo.deleteById(userId);
-        } else {
-            throw new NotFoundException("User not found");
-        }
+    public User delete(UUID userId) {
+        User userToBeDeleted = userRepo.findById(userId).orElseThrow(() -> new NotFoundException("No user found!"));
+        userRepo.delete(userToBeDeleted);
+        return userToBeDeleted;
+
     }
 }

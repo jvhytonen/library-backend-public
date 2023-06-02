@@ -2,6 +2,7 @@ package com.rest_api.fs14backend.category;
 
 import com.rest_api.fs14backend.book.Book;
 import com.rest_api.fs14backend.book.BookRepository;
+import com.rest_api.fs14backend.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class CategoryService {
     return categoryEntity;
   }
 
-  public void delete(UUID id) throws Exception {
+  public Category delete(UUID id) throws Exception {
     Book bookEntity = bookRepository.findAll()
             .stream()
             .filter(
@@ -46,7 +47,9 @@ public class CategoryService {
     if (null != bookEntity) {
      throw new Exception("Book that has this category still exists!");
     }  else {
-      categoryRepository.deleteById(id);
+      Category deletedCategory = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("No category with such id found"));
+      categoryRepository.delete(deletedCategory);
+      return deletedCategory;
     }
   }
 

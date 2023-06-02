@@ -7,7 +7,8 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @Data
-public class CheckoutDTO {
+public class CheckoutReturnDTO {
+    private UUID checkoutId;
     private UUID userId;
     private UUID copyId;
 }

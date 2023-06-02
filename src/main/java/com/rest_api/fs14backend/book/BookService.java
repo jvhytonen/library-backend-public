@@ -1,5 +1,6 @@
 package com.rest_api.fs14backend.book;
 
+import com.rest_api.fs14backend.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,41 +12,36 @@ import java.util.UUID;
 @Service
 public class BookService {
 
-  private final BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
-  public BookService(BookRepository bookRepository) {
-    this.bookRepository = bookRepository;
-  }
-
-  public List<Book> getAllBooks() {
-    return bookRepository.findAll();
-  }
-
-  public Book createOne(Book book) {
-    return bookRepository.save(book);
-  }
-
-  public Book getBookById(UUID id) throws Exception {
-    Book bookEntity = bookRepository.findById(id).orElseThrow(() -> new Exception("No category with such id found!"));
-    return bookEntity;
-  }
-
-  public void deleteBook(UUID id) {
-    Optional<Book> bookToDelete = bookRepository.findById(id);
-    if (bookToDelete.isPresent()) {
-      bookRepository.delete(bookToDelete.get());
-    } else {
-      throw new IllegalStateException("Book with " + id + " not found");
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
-  }
 
-  @Transactional
-  public void updateBook(UUID id, BookDTO updatedBook) throws Exception {
-   Book bookToEdit = bookRepository.findById(id).orElseThrow(() -> new Exception("No category with such id found!"));
-      bookToEdit.setDescription(updatedBook.getDescription());
-      bookToEdit.setIsbn(updatedBook.getIsbn());
-      bookToEdit.setYearPublished(updatedBook.getYearPublished());
-      bookToEdit.setTitle(updatedBook.getTitle());
-      bookToEdit.setPublisher(updatedBook.getPublisher());
-  }
+    public Book createOne(Book book) {
+        return bookRepository.save(book);
+    }
+
+    public Book getBookById(UUID id) throws Exception {
+        Book bookEntity = bookRepository.findById(id).orElseThrow(() -> new Exception("No book with such id found!"));
+        return bookEntity;
+    }
+
+    public Book deleteBook(UUID id) {
+        Book bookToDelete = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book with such id not found"));
+        bookRepository.delete(bookToDelete);
+        return bookToDelete;
+    }
+
+    @Transactional
+    public Book updateBook(UUID id, BookDTO updatedBook) throws Exception {
+        Book bookToEdit = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("No book with such id found!"));
+        bookToEdit.setDescription(updatedBook.getDescription());
+        bookToEdit.setIsbn(updatedBook.getIsbn());
+        bookToEdit.setYearPublished(updatedBook.getYearPublished());
+        bookToEdit.setTitle(updatedBook.getTitle());
+        bookToEdit.setPublisher(updatedBook.getPublisher());
+        return bookToEdit;
+    }
 }

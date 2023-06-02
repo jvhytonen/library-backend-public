@@ -4,6 +4,7 @@ import com.rest_api.fs14backend.book_copy.BookCopyService;
 import com.rest_api.fs14backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +28,14 @@ public class CheckoutController {
     }
 
     @PostMapping("/return/")
-    public Checkout returnBook(@RequestBody CheckoutDTO checkoutDTO) throws Exception {
-        return checkoutService.returnBook(checkoutDTO);
+    public ResponseEntity<Checkout> returnCopy(@RequestBody CheckoutReturnDTO borrowRequest) throws Exception {
+        Checkout returnedCopy = checkoutService.returnBook(borrowRequest);
+        return ResponseEntity.ok(returnedCopy);
     }
 
     @PostMapping("/borrow/")
-    public Checkout borrowBook(@RequestBody CheckoutDTO checkoutDTO) throws Exception {
-       return checkoutService.borrowBook(checkoutDTO);
+    public ResponseEntity<Checkout> borrowCopy(@RequestBody CheckoutReturnDTO returnRequest) throws Exception {
+        Checkout borrowedCopy = checkoutService.borrowBook(returnRequest);
+        return ResponseEntity.ok(borrowedCopy);
     }
 }
