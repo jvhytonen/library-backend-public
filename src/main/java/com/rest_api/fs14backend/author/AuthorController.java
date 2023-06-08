@@ -29,8 +29,9 @@ public class AuthorController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Author> addOne(@RequestBody AuthorDTO authorDTO) {
-        Author newAuthor = AuthorMapper.newAuthor(authorDTO);
+    public ResponseEntity<Author> addOne(@RequestBody Author author) {
+        Author newAuthor = AuthorMapper.newAuthor(author);
+        authorService.createOne(newAuthor);
         return ResponseEntity.ok(newAuthor);
     }
 

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthorMapper {
-    public static Author newAuthor(AuthorDTO author) {
+    public static Author newAuthor(Author author) {
         return new Author(
                 author.getName(),
                 author.getDescription()

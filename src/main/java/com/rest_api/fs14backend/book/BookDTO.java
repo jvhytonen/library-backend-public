@@ -14,7 +14,7 @@ public class BookDTO {
     private UUID authorId;
     private String isbn;
     private String title;
-    private Date yearPublished;
+    private String yearPublished;
     private String imageUrl;
     private String description;
     private String publisher;

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,12 +55,7 @@ public class BookController {
 
     @PostMapping("/")
     public ResponseEntity<Book> createOne(@RequestBody BookDTO bookDTO) throws Exception {
-        UUID categoryId = bookDTO.getCategoryId();
-        Category category = categoryService.findById(categoryId);
-        UUID authorId = bookDTO.getAuthorId();
-        Author author = authorService.getAuthorById(authorId);
-        Book book = bookMapper.newBook(bookDTO, category, author);
-        Book createdBook = bookService.createOne(book);
+        Book createdBook = bookService.createOne(bookDTO);
         return ResponseEntity.ok(createdBook);
     }
 
