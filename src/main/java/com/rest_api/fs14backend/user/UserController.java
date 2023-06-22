@@ -3,22 +3,28 @@ package com.rest_api.fs14backend.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://127.0.0.1:5173/")
+// @CrossOrigin(origins = "http://127.0.0.1:5173/")
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/")
-    public ResponseEntity<User> addOne(@RequestBody User user) {
-        User newUser = userService.addOne(user);
+    @PostMapping("/signup/")
+    public ResponseEntity<User> signUp(@RequestBody User user) {
+        User newUser = new User(user.getName(), passwordEncoder.encode(user.getPassword()), user.getUsername(), user.getRole());
+        userRepository.save(newUser);
         return ResponseEntity.ok(newUser);
     }
 

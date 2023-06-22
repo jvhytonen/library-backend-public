@@ -8,7 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.UUID;
 
-@Entity
+@Entity(name= "user")
 @Table(name = "users")
 @Data
 @NoArgsConstructor
@@ -18,30 +18,27 @@ public class User {
     @UuidGenerator
     private UUID id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Column(unique = true, nullable = false)
+    private String username;
+
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private String email;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role;
 
-    public static enum Role {
+    enum Role {
         USER,
         ADMIN
     }
 
-public User(String username, String password, String name, String email, Role role){
-   this.username = username;
-   this.password = password;
+public User(String name, String password, String username, Role role){
    this.name = name;
-   this.email = email;
+   this.password = password;
+   this.username = username;
    this.role = role;
 }
 }

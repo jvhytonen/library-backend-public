@@ -1,20 +1,13 @@
 package com.rest_api.fs14backend.book;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import com.rest_api.fs14backend.author.Author;
-import com.rest_api.fs14backend.book_copy.BookCopy;
 import com.rest_api.fs14backend.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
