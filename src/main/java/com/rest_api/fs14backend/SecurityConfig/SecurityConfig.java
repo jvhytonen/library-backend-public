@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
     @Autowired
     private JwtFilter jwtFilter;
 
@@ -25,24 +32,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("api/v1/users/signup", "api/v1/users/signin", "api/v1/books/")
+                .requestMatchers("/api/v1/books/", "/api/v1/users/", "/api/v1/signup", "/api/v1/signin")
                 .permitAll()
-                .and()
-                .authorizeHttpRequests()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                // Add JWT token filter
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 

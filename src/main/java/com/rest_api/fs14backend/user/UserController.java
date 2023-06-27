@@ -1,7 +1,11 @@
 package com.rest_api.fs14backend.user;
 
+import com.rest_api.fs14backend.utils.JwtUtils;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -12,7 +16,7 @@ import java.util.stream.Collectors;
 
 // @CrossOrigin(origins = "http://127.0.0.1:5173/")
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -20,15 +24,29 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @PostMapping("/signup/")
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtUtils jwtUtils;
+    @PostMapping("/signin")
+    public String login(@RequestBody AuthRequest authRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        authRequest.getUsername(),
+                        authRequest.getPassword()
+                )
+        );
+        User user = userRepository.findByUsername(authRequest.getUsername());
+        return jwtUtils.generateToken(user);
+    }
+    @PostMapping("/signup")
     public ResponseEntity<User> signUp(@RequestBody User user) {
         User newUser = new User(user.getName(), passwordEncoder.encode(user.getPassword()), user.getUsername(), user.getRole());
         userRepository.save(newUser);
         return ResponseEntity.ok(newUser);
     }
 
-    @GetMapping("/")
+    @GetMapping("/users/")
     public List<User> getAll() {
         return userService.getAllUsers();
     }
