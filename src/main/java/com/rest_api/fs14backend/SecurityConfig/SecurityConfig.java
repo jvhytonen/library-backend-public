@@ -32,15 +32,29 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/books/", "/api/v1/users/", "/api/v1/signup", "/api/v1/signin")
+                .requestMatchers("/api/v1/books/", "api/v1/authors/", "/api/v1/signup", "/api/v1/signin")
                 .permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/v1/categories/")
+                .permitAll()
+                .requestMatchers("/api/v1/authors/").hasRole("USER")
+                .requestMatchers("/api/v1/users/").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/categories/").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/authors/").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/books/").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/v1/books/{id}").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic(Customizer.withDefaults());
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                // Add JWT token filter
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
