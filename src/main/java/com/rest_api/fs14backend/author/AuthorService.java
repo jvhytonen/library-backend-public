@@ -4,6 +4,7 @@ import com.rest_api.fs14backend.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.rest_api.fs14backend.exceptions.CustomException;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class AuthorService {
     private AuthorRepository authorRepository;
 
     public Author getAuthorById(UUID id) throws Exception {
-        Author author = authorRepository.findById(id).orElseThrow(() -> new NotFoundException("No author with such id found!"));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new CustomException("No author with such id found!"));
         return authorRepository.findAuthorById(id);
     }
 
@@ -35,14 +36,14 @@ public class AuthorService {
     }
 
     public Author delete(UUID id) throws Exception {
-        Author authorToDelete = authorRepository.findById(id).orElseThrow(() -> new Exception("No author with such id found!"));
+        Author authorToDelete = authorRepository.findById(id).orElseThrow(() -> new CustomException("No author with such id found!"));
         authorRepository.delete(authorToDelete);
         return authorToDelete;
     }
 
     @Transactional
     public Author update(UUID id, AuthorDTO updatedAuthor) throws Exception {
-        Author authorToEdit = authorRepository.findById(id).orElseThrow(() -> new Exception("No author with such id found!"));
+        Author authorToEdit = authorRepository.findById(id).orElseThrow(() -> new CustomException("No author with such id found!"));
         authorToEdit.setName(updatedAuthor.getName());
         authorToEdit.setDescription(updatedAuthor.getDescription());
         return authorToEdit;

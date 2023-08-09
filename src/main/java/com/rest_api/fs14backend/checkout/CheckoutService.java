@@ -4,6 +4,7 @@ import com.rest_api.fs14backend.book_copy.BookCopy;
 import com.rest_api.fs14backend.book_copy.BookCopyService;
 import com.rest_api.fs14backend.user.User;
 import com.rest_api.fs14backend.user.UserRepository;
+import com.rest_api.fs14backend.exceptions.CustomException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CheckoutService {
 
     public Checkout borrowBook(CheckoutReturnDTO checkoutReturnDTO) throws Exception {
         if (checkCopyAvailability(checkoutReturnDTO.getCopyId()) && checkIfUserExists(checkoutReturnDTO.getUserId())) {
-            User user = userRepository.findById(checkoutReturnDTO.getUserId()).orElseThrow(() -> new Exception("No user with such id found!"));
+            User user = userRepository.findById(checkoutReturnDTO.getUserId()).orElseThrow(() -> new CustomException("No user with such id found!"));
             BookCopy copy = bookCopyService.getCopyById(checkoutReturnDTO.getCopyId());
             Date startTime = new Date();
             Date endTime = createEndTime(startTime);
@@ -42,7 +43,7 @@ public class CheckoutService {
         List<Checkout> allCheckouts = checkoutRepository.findAll();
         for (Checkout checkout : allCheckouts) {
             if (copyId.equals(checkout.getCopy()) && !checkout.isReturned()) {
-                throw new IllegalStateException("The copy is already borrowed!");
+                throw new CustomException("The copy is already borrowed!");
             }
         }
         return true;
@@ -56,7 +57,7 @@ public class CheckoutService {
             }
         }
         // If the loop goes through all the users, there is no user with the right id.
-        throw new IllegalStateException("User with such user id do not exist!");
+        throw new CustomException("User with such user id do not exist!");
     }
 
     public Date createEndTime(Date startTime) {
@@ -69,12 +70,12 @@ public class CheckoutService {
 
     @Transactional
     public Checkout returnBook(CheckoutReturnDTO checkoutReturnDTO) throws Exception {
-        Checkout checkoutToReturn = checkoutRepository.findById(checkoutReturnDTO.getCheckoutId()).orElseThrow(() -> new Exception("No checkout with such id found!"));
+        Checkout checkoutToReturn = checkoutRepository.findById(checkoutReturnDTO.getCheckoutId()).orElseThrow(() -> new CustomException("No checkout with such id found!"));
         if (checkoutReturnDTO.getUserId().equals(checkoutToReturn.getUser().getId())) {
             checkoutToReturn.setReturned(true);
             return checkoutToReturn;
         } else {
-            throw new IllegalStateException("Book is not borrowed by the current user!");
+            throw new CustomException("Book is not borrowed by the current user!");
         }
     }
 

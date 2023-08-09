@@ -2,6 +2,7 @@ package com.rest_api.fs14backend.category;
 
 import com.rest_api.fs14backend.book.Book;
 import com.rest_api.fs14backend.book.BookRepository;
+import com.rest_api.fs14backend.exceptions.CustomException;
 import com.rest_api.fs14backend.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,24 +31,26 @@ public class CategoryService {
   }
 
   public Category findById(UUID categoryId) throws Exception {
-    Category categoryEntity = categoryRepository.findById(categoryId).orElseThrow(() -> new Exception("No category with such id found!"));
+    Category categoryEntity = categoryRepository.findById(categoryId).orElseThrow(() -> new CustomException("No category with such id found!"));
     if (categoryEntity == null) {
       throw new Exception("No category with such id found!");
     }
     return categoryEntity;
   }
 
-  public Category delete(UUID id) throws Exception {
+  public Category delete(UUID id) throws NotFoundException, Exception {
+    // This will check if the category to be deleted is still a foreign key in some book.
     Book bookEntity = bookRepository.findAll()
             .stream()
             .filter(
                     pro -> Objects.equals(pro.getCategory().getId(), id))
             .findFirst()
             .orElse(null);
+    // If the category is still related to a book, it cannot be removed.
     if (null != bookEntity) {
-     throw new Exception("Book that has this category still exists!");
+     throw new CustomException("Book that has this category still exists!");
     }  else {
-      Category deletedCategory = categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("No category with such id found"));
+      Category deletedCategory = categoryRepository.findById(id).orElseThrow(() -> new CustomException("No category with such id found"));
       categoryRepository.delete(deletedCategory);
       return deletedCategory;
     }
@@ -55,7 +58,7 @@ public class CategoryService {
 
   @Transactional
   public CategoryDTO update(UUID id, CategoryDTO newCategory) throws Exception {
-   Category categoryToEdit = categoryRepository.findById(id).orElseThrow(() -> new Exception("No category with such id found!"));
+   Category categoryToEdit = categoryRepository.findById(id).orElseThrow(() -> new CustomException("No category with such id found!"));
       categoryToEdit.setName(newCategory.getName());
       return newCategory;
   }

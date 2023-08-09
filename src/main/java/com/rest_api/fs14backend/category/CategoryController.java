@@ -1,7 +1,9 @@
 package com.rest_api.fs14backend.category;
 
 import com.rest_api.fs14backend.category.CategoryMapper;
+import com.rest_api.fs14backend.exceptions.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,10 +41,14 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Category> deleteOne(@PathVariable UUID id) throws Exception {
-        Category deletedCategory = categoryService.delete(id);
-        return ResponseEntity.ok(deletedCategory);
+        try {
+            Category deletedCategory = categoryService.delete(id);
+            return ResponseEntity.ok(deletedCategory);
+        } catch (CustomException ex) {
+            // Re-throw the CustomException
+            throw ex;
+        }
     }
-
     @PutMapping("/{id}")
     public CategoryDTO updateCategory(@PathVariable UUID id, @RequestBody CategoryDTO category) throws Exception {
         return categoryService.update(id, category);

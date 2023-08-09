@@ -2,6 +2,7 @@ package com.rest_api.fs14backend.book_copy;
 
 import com.rest_api.fs14backend.checkout.Checkout;
 import com.rest_api.fs14backend.checkout.CheckoutRepository;
+import com.rest_api.fs14backend.exceptions.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,12 +43,12 @@ public class BookCopyService {
     }
 
     public BookCopy deleteCopy(UUID id) throws Exception {
-        BookCopy copyToDelete = bookCopyRepository.findById(id).orElseThrow(() -> new Exception("No copy with such id found!"));
+        BookCopy copyToDelete = bookCopyRepository.findById(id).orElseThrow(() -> new CustomException("No copy with such id found!"));
         bookCopyRepository.delete(copyToDelete);
         return copyToDelete;
     }
 
     public BookCopy getCopyById(UUID id) throws Exception {
-        return bookCopyRepository.findById(id).orElseThrow(() -> new Exception("No copy with such id found"));
+        return bookCopyRepository.findById(id).orElseThrow(() -> new CustomException("No copy with such id found"));
     }
 }
