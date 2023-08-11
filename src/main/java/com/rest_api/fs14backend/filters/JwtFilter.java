@@ -1,7 +1,9 @@
 package com.rest_api.fs14backend.filters;
 
 import com.rest_api.fs14backend.SecurityConfig.CustomUserDetailsService;
+import com.rest_api.fs14backend.exceptions.CustomException;
 import com.rest_api.fs14backend.utils.JwtUtils;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        try {
         // Get jwt token and validate
         String authorizationHeader = request.getHeader("Authorization");
 
@@ -52,6 +55,9 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
 
+        } } catch (ExpiredJwtException ex) {
+            // Convert to your custom exception
+            throw new CustomException("Your session has expired! Please log in again.");
         }
 
 

@@ -48,7 +48,7 @@ public class CategoryService {
             .orElse(null);
     // If the category is still related to a book, it cannot be removed.
     if (null != bookEntity) {
-     throw new CustomException("Book that has this category still exists!");
+     throw new CustomException("Cannot remove a category that is used by at least one book");
     }  else {
       Category deletedCategory = categoryRepository.findById(id).orElseThrow(() -> new CustomException("No category with such id found"));
       categoryRepository.delete(deletedCategory);

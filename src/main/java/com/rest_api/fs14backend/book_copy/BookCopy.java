@@ -24,7 +24,7 @@ public class BookCopy {
     private UUID copyId;
 
     @JsonManagedReference
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false) // Eager fetch type to prevent lazily initialize-error
     @JoinColumn(name = "book_id")
     private Book book;
 

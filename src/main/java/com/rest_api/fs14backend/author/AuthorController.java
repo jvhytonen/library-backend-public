@@ -2,6 +2,7 @@ package com.rest_api.fs14backend.author;
 
 import com.rest_api.fs14backend.category.Category;
 import com.rest_api.fs14backend.category.CategoryMapper;
+import com.rest_api.fs14backend.exceptions.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,14 @@ public class AuthorController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Author> delete(@PathVariable UUID id) throws Exception {
-        Author deletedAuthor = authorService.delete(id);
-        return ResponseEntity.ok(deletedAuthor);
+        try {
+            Author deletedAuthor = authorService.delete(id);
+            return ResponseEntity.ok(deletedAuthor);
+        }
+        catch (CustomException ex) {
+            // Re-throw the CustomException
+            throw ex;
+        }
     }
 
     @PutMapping("/{id}")

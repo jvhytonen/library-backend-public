@@ -9,11 +9,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class BookCopyDTO {
-    private BookCopy bookCopy;
+    private UUID bookCopyId;
     private Checkout latestCheckout;
 
-    public BookCopyDTO(BookCopy copy, Checkout latestCheckout) {
-        this.bookCopy = copy;
+    public BookCopyDTO(UUID copyId, Checkout latestCheckout) {
+        this.bookCopyId = copyId;
         this.latestCheckout = latestCheckout;
     }
 }

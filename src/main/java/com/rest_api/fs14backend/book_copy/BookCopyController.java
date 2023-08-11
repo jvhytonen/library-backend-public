@@ -33,17 +33,14 @@ public class BookCopyController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<BookCopy> createOne(@RequestBody BookCopyCreationDTO newCopy) throws Exception {
-        UUID bookId = newCopy.getBookId();
-        Book book = bookService.getBookById(bookId);
-        BookCopy copy = new BookCopy(book);
-        BookCopy createdCopy = bookCopyService.createOne(copy);
+    public ResponseEntity<BookCopyDTO> createOne(@RequestBody BookCopyCreationDTO newCopy) throws Exception {
+       BookCopyDTO createdCopy = bookCopyService.createCopy(newCopy);
         return ResponseEntity.ok(createdCopy);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<BookCopy> deleteCopy(@PathVariable UUID id) throws Exception {
+    public ResponseEntity<UUID> deleteCopy(@PathVariable UUID id) throws Exception {
         BookCopy deletedCopy = bookCopyService.deleteCopy(id);
-        return ResponseEntity.ok(deletedCopy);
+        return ResponseEntity.ok(id);
     }
 }
