@@ -20,13 +20,15 @@ public class AuthorController {
     private AuthorRepository repo;
 
     @GetMapping("/")
-    public List<Author> getAllAuthors() {
-        return authorService.findAll();
+    public ResponseEntity<List<Author>> getAllAuthors() {
+        List<Author> authors = authorService.findAll();
+        return ResponseEntity.ok(authors);
     }
 
     @GetMapping("/{id}")
-    public Author findById(@PathVariable UUID id) throws Exception {
-        return authorService.getAuthorById(id);
+    public ResponseEntity<Author> findById(@PathVariable UUID id) throws Exception {
+        Author author = authorService.getAuthorById(id);
+        return ResponseEntity.ok(author);
     }
 
     @PostMapping("/")

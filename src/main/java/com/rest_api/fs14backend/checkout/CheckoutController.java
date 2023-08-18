@@ -23,19 +23,20 @@ public class CheckoutController {
     private BookCopyService bookCopyService;
 
     @GetMapping("/")
-    public List<Checkout> getAll() {
-        return checkoutService.findAll();
+    public ResponseEntity<List<Checkout>> getAll() {
+        List<Checkout> checkouts = checkoutService.findAll();
+        return ResponseEntity.ok(checkouts);
     }
 
     @PostMapping("/return/")
-    public ResponseEntity<Checkout> returnCopy(@RequestBody CheckoutReturnDTO borrowRequest) throws Exception {
-        Checkout returnedCopy = checkoutService.returnBook(borrowRequest);
+    public ResponseEntity<Checkout> returnCopy(@RequestBody CheckoutReturnDTO returnRequest) throws Exception {
+        Checkout returnedCopy = checkoutService.returnBook(returnRequest);
         return ResponseEntity.ok(returnedCopy);
     }
 
     @PostMapping("/borrow/")
-    public ResponseEntity<Checkout> borrowCopy(@RequestBody CheckoutReturnDTO returnRequest) throws Exception {
-        Checkout borrowedCopy = checkoutService.borrowBook(returnRequest);
+    public ResponseEntity<Checkout> borrowCopy(@RequestBody CheckoutBorrowDTO borrowRequest) throws Exception {
+        Checkout borrowedCopy = checkoutService.borrowBook(borrowRequest);
         return ResponseEntity.ok(borrowedCopy);
     }
 }

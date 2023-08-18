@@ -30,13 +30,15 @@ public class CategoryController {
     }
 
     @GetMapping("/")
-    public List<Category> getAll() {
-        return categoryService.findAll();
+    public ResponseEntity<List<Category>> getAll() {
+        List<Category> categories = categoryService.findAll();
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/{id}")
-    public Category getById(@PathVariable UUID id) throws Exception {
-        return categoryService.findById(id);
+    public ResponseEntity<Category> getById(@PathVariable UUID id) throws Exception {
+        Category category = categoryService.findById(id);
+        return ResponseEntity.ok(category);
     }
 
     @DeleteMapping("/{id}")
@@ -50,8 +52,9 @@ public class CategoryController {
         }
     }
     @PutMapping("/{id}")
-    public CategoryDTO updateCategory(@PathVariable UUID id, @RequestBody CategoryDTO category) throws Exception {
-        return categoryService.update(id, category);
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable UUID id, @RequestBody CategoryDTO category) throws Exception {
+        CategoryDTO updatedCategory = categoryService.update(id, category);
+        return ResponseEntity.ok(updatedCategory);
     }
 
 }

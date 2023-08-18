@@ -3,6 +3,7 @@ package com.rest_api.fs14backend.book_copy;
 import com.rest_api.fs14backend.book.Book;
 import com.rest_api.fs14backend.book.BookService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +24,15 @@ public class BookCopyController {
     private BookCopyCreationDTO bookCopyCreationDTO;
 
     @GetMapping("/")
-    public List<BookCopy> getBookCopies() {
-        return bookCopyService.getAllBookCopies();
+    public ResponseEntity<List<BookCopy>> getBookCopies() {
+        List<BookCopy> copies = bookCopyService.getAllBookCopies();
+        return ResponseEntity.ok(copies);
     }
 
     @GetMapping("/{id}")
-    public List<BookCopyDTO> getCopiesByBookId(@PathVariable UUID id) throws Exception {
-        return bookCopyService.getCopiesByBookId(id);
+    public ResponseEntity<List<BookCopyDTO>> getCopiesByBookId(@PathVariable UUID id) throws Exception {
+        List<BookCopyDTO> copy = bookCopyService.getCopiesByBookId(id);
+        return ResponseEntity.ok(copy);
     }
 
     @PostMapping("/")

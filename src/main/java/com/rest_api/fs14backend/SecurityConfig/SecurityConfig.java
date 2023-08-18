@@ -43,6 +43,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/v1/authors/").hasRole("USER")
                 .requestMatchers("/api/v1/users/").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/checkouts/borrow/").hasRole("USER")
+                .requestMatchers(HttpMethod.POST, "/api/v1/checkouts/return/").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/api/v1/categories/").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/v1/book-copies/").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/v1/authors/").hasRole("ADMIN")

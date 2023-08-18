@@ -26,10 +26,21 @@ public class CheckoutService {
     @Autowired
     private BookCopyService bookCopyService;
 
-    public Checkout borrowBook(CheckoutReturnDTO checkoutReturnDTO) throws Exception {
-        if (checkCopyAvailability(checkoutReturnDTO.getCopyId()) && checkIfUserExists(checkoutReturnDTO.getUserId())) {
-            User user = userRepository.findById(checkoutReturnDTO.getUserId()).orElseThrow(() -> new CustomException("No user with such id found!"));
-            BookCopy copy = bookCopyService.getCopyById(checkoutReturnDTO.getCopyId());
+    @Transactional
+    public Checkout returnBook(CheckoutReturnDTO checkoutReturnDTO) throws Exception {
+        Checkout checkoutToReturn = checkoutRepository.findById(checkoutReturnDTO.getCheckoutId()).orElseThrow(() -> new CustomException("No checkout with such id found!"));
+        if (checkoutReturnDTO.getUserId().equals(checkoutToReturn.getUser().getId())) {
+            checkoutToReturn.setReturned(true);
+            return checkoutToReturn;
+        } else {
+            throw new CustomException("Book is not borrowed by the current user!");
+        }
+    }
+
+    public Checkout borrowBook(CheckoutBorrowDTO checkoutBorrowDTO) throws Exception {
+        if (checkCopyAvailability(checkoutBorrowDTO.getCopyId()) && checkIfUserExists(checkoutBorrowDTO.getUserId())) {
+            User user = userRepository.findById(checkoutBorrowDTO.getUserId()).orElseThrow(() -> new CustomException("No user with such id found!"));
+            BookCopy copy = bookCopyService.getCopyById(checkoutBorrowDTO.getCopyId());
             Date startTime = new Date();
             Date endTime = createEndTime(startTime);
             Checkout checkout = new Checkout(false, startTime, endTime, user, copy);
@@ -39,14 +50,17 @@ public class CheckoutService {
         }
     }
 
-    public boolean checkCopyAvailability(UUID copyId) {
-        List<Checkout> allCheckouts = checkoutRepository.findAll();
-        for (Checkout checkout : allCheckouts) {
-            if (copyId.equals(checkout.getCopy()) && !checkout.isReturned()) {
-                throw new CustomException("The copy is already borrowed!");
-            }
+    public boolean checkCopyAvailability(UUID copyId) throws Exception {
+        // Get the copy
+        BookCopy copy = bookCopyService.getCopyById(copyId);
+        // Get latestCheckout and return true if the book is returned or never borrowed.
+        Checkout latestCheckout = checkoutRepository.findLatestCheckout(copy);
+        if (latestCheckout == null || latestCheckout.isReturned()) {
+            return true;
         }
-        return true;
+        else {
+            throw new CustomException("The copy is already borrowed!");
+        }
     }
 
     public boolean checkIfUserExists(UUID userId) {
@@ -66,17 +80,6 @@ public class CheckoutService {
         calendar.add(Calendar.DAY_OF_MONTH, 30);
         Date endDate = calendar.getTime();
         return endDate;
-    }
-
-    @Transactional
-    public Checkout returnBook(CheckoutReturnDTO checkoutReturnDTO) throws Exception {
-        Checkout checkoutToReturn = checkoutRepository.findById(checkoutReturnDTO.getCheckoutId()).orElseThrow(() -> new CustomException("No checkout with such id found!"));
-        if (checkoutReturnDTO.getUserId().equals(checkoutToReturn.getUser().getId())) {
-            checkoutToReturn.setReturned(true);
-            return checkoutToReturn;
-        } else {
-            throw new CustomException("Book is not borrowed by the current user!");
-        }
     }
 
     public List<Checkout> findAll() {

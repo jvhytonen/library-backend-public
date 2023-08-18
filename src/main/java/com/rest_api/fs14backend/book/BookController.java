@@ -37,14 +37,15 @@ public class BookController {
     private BookMapper bookMapper;
 
     @GetMapping("/")
-    public List<Book> getBooks() {
+    public ResponseEntity<List<Book>> getBooks() {
         List<Book> books = bookService.getAllBooks();
-        return books;
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping(value = "/{id}")
-    public Book getBookById(@PathVariable UUID id) throws Exception {
-        return bookService.getBookById(id);
+    public ResponseEntity<Book> getBookById(@PathVariable UUID id) throws Exception {
+        Book book = bookService.getBookById(id);
+        return ResponseEntity.ok(book);
     }
 
     @DeleteMapping(value = "/{id}")
