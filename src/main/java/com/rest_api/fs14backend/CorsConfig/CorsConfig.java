@@ -11,8 +11,8 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         //Localhost
-        config.addAllowedOrigin("http://127.0.0.1:5173/");
-        config.addAllowedOrigin("https://stately-starship-e19365.netlify.app/");
+        config.addAllowedOrigin("http://127.0.0.1:5173");
+        config.addAllowedOrigin("https://stately-starship-e19365.netlify.app");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         //This will apply to all Controllers
