@@ -25,6 +25,7 @@ public class CorsFilter implements Filter {
         }
 
         httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
+        httpServletResponse.setHeader("Access-Control-Allow-Origin","https://fs14-backend-6whg.onrender.com/api/");
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
