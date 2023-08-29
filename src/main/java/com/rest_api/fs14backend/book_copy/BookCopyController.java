@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-
+@CrossOrigin(origins = "https://stately-starship-e19365.netlify.app/")
 @RestController
 @RequestMapping("api/v1/book-copies")
 @RequiredArgsConstructor

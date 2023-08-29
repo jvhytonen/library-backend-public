@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "https://stately-starship-e19365.netlify.app/")
 @RestController
 @RequestMapping("api/v1")
 public class UserController {
