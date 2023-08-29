@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "https://stately-starship-e19365.netlify.app/", allowedHeaders = {"Authorization", "Content-Type"})
+@CrossOrigin(origins = {"https://stately-starship-e19365.netlify.app/", "http://127.0.0.1:5173/"}, allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("api/v1/checkouts")
 @RequiredArgsConstructor

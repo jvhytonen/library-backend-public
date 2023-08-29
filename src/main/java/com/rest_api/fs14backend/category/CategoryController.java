@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-@CrossOrigin(origins = "https://stately-starship-e19365.netlify.app/", allowedHeaders = {"Authorization", "Content-Type"})
+@CrossOrigin(origins = {"https://stately-starship-e19365.netlify.app/", "http://127.0.0.1:5173/"}, allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("api/v1/categories")
 public class CategoryController {

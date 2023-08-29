@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "https://stately-starship-e19365.netlify.app/", allowedHeaders = {"Authorization", "Content-Type"})
+@CrossOrigin(origins = {"https://stately-starship-e19365.netlify.app/", "http://127.0.0.1:5173/"}, allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("api/v1")
 public class UserController {
