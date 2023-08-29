@@ -19,7 +19,7 @@ public class CategoryController {
     @Autowired
     private CategoryMapper categoryMapper;
 
-    @CrossOrigin(origins = "http://127.0.0.1:5173/", allowedHeaders = {"Authorization", "Content-Type"})
+   // @CrossOrigin(origins = "http://127.0.0.1:5173/", allowedHeaders = {"Authorization", "Content-Type"})
     @PostMapping("/")
     public ResponseEntity<Category> createOne(@RequestBody CategoryDTO categoryDTO) throws Exception {
         Category newCategory = categoryMapper.newCategory(categoryDTO);
