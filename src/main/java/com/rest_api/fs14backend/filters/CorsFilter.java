@@ -3,6 +3,7 @@ package com.rest_api.fs14backend.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
@@ -14,6 +15,15 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+
+        // Cast to HttpServletRequest to access getMethod()
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        // This is for preflight requests
+        if ("OPTIONS".equals(httpServletRequest.getMethod())) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
         httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
