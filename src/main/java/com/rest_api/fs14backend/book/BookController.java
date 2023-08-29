@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+@CrossOrigin(origins = "https://stately-starship-e19365.netlify.app/", allowedHeaders = {"Authorization", "Content-Type"})
 @RestController
 @RequestMapping("api/v1/books")
 @RequiredArgsConstructor
