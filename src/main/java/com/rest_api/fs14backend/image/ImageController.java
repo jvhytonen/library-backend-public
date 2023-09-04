@@ -27,11 +27,13 @@ public class ImageController {
     public String uploadImage(@RequestParam("file") MultipartFile file) {
         try {
             String filename = file.getOriginalFilename();
+            String contentType = file.getContentType();
 
             // This method uploads the image.
             s3Client.putObject(PutObjectRequest.builder()
                             .bucket(bucketName)
                             .key(filename)
+                            .contentType(contentType)
                             .build(),
                     RequestBody.fromBytes(file.getBytes()));
 
