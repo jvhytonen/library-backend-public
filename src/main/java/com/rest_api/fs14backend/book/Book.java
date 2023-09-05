@@ -33,7 +33,7 @@ public class Book {
     @Column(nullable = true)
     private String imageUrl;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 1000)
     private String description;
 
     @Column(nullable = true)
