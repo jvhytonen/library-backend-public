@@ -51,11 +51,11 @@ public class BookController {
     }
 
     @GetMapping(value="/list/")
-    public ResponseEntity<Book> getBooks(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Page<Book>> getBooks(@RequestParam int page, @RequestParam int size) {
         //This is to fix the confusion in Page Request.
-        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
         Page<Book> books = bookService.getBooksByPage(pageable);
-        return ResponseEntity.ok((Book) books);
+        return ResponseEntity.ok(books);
     }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable UUID id) throws Exception {
