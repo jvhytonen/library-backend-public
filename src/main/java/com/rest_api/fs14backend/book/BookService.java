@@ -72,4 +72,7 @@ public class BookService {
         return yearDate.parse(year);
     }
 
+    public List<Book> getBooksByAuthorId(UUID id) {
+        return bookRepository.findByAuthorId(id);
+    }
 }

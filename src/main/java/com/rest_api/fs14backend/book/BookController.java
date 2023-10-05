@@ -36,9 +36,15 @@ public class BookController {
     private BookMapper bookMapper;
 
     @GetMapping("/")
-    public ResponseEntity<List<Book>> getBooks() {
+    public ResponseEntity<List<Book>> getAll() {
         List<Book> books = bookService.getAllBooks();
         return ResponseEntity.ok(books);
+    }
+
+    @GetMapping(value= "/byAuthor/{id}")
+    public ResponseEntity<List<Book>> getBookByAuthor(@PathVariable UUID id) throws Exception {
+        List<Book> booksByAuthorId = bookService.getBooksByAuthorId(id);
+        return ResponseEntity.ok(booksByAuthorId);
     }
 
     @GetMapping(value = "/{id}")
