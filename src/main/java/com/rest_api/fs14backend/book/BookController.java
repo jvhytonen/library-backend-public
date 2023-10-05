@@ -52,7 +52,8 @@ public class BookController {
 
     @GetMapping(value="/list/")
     public ResponseEntity<Book> getBooks(@RequestParam int page, @RequestParam int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        //This is to fix the confusion in Page Request.
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
         Page<Book> books = bookService.getBooksByPage(pageable);
         return ResponseEntity.ok((Book) books);
     }
