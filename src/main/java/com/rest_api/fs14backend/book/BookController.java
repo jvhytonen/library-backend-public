@@ -50,7 +50,7 @@ public class BookController {
         return ResponseEntity.ok(booksByAuthorId);
     }
 
-    @GetMapping(value="/list")
+    @GetMapping(value="/list/")
     public ResponseEntity<Book> getBooks(@RequestParam int page, @RequestParam int size) {
         Pageable pageable = (Pageable) PageRequest.of(page, size);
         Page<Book> books = bookService.getBooksByPage(pageable);
