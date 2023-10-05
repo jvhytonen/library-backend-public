@@ -7,9 +7,11 @@ import com.rest_api.fs14backend.category.CategoryService;
 import com.rest_api.fs14backend.exceptions.NotFoundException;
 import com.rest_api.fs14backend.exceptions.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -74,5 +76,9 @@ public class BookService {
 
     public List<Book> getBooksByAuthorId(UUID id) {
         return bookRepository.findByAuthorId(id);
+    }
+
+    public Page<Book> getBooksByPage(Pageable pageable) {
+        return bookRepository.findAll((org.springframework.data.domain.Pageable) pageable);
     }
 }

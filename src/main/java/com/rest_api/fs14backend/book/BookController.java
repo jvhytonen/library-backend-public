@@ -8,9 +8,12 @@ import com.rest_api.fs14backend.category.Category;
 import com.rest_api.fs14backend.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +50,12 @@ public class BookController {
         return ResponseEntity.ok(booksByAuthorId);
     }
 
+    @GetMapping(value="/list")
+    public ResponseEntity<Book> getBooks(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = (Pageable) PageRequest.of(page, size);
+        Page<Book> books = bookService.getBooksByPage(pageable);
+        return ResponseEntity.ok((Book) books);
+    }
     @GetMapping(value = "/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable UUID id) throws Exception {
         Book book = bookService.getBookById(id);
