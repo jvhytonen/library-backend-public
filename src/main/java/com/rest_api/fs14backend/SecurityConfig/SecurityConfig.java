@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/books/", "api/v1/authors/","/byAuthor/{id}", "/api/v1/signup", "/api/v1/book-copies/{id}", "/api/v1/signin", "/api/v1/images/upload/")
+                .requestMatchers("/api/v1/books/", "api/v1/authors/","/api/v1/books/byAuthor/{id}", "/api/v1/signup", "/api/v1/book-copies/{id}", "/api/v1/signin", "/api/v1/images/upload/")
                 .permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/v1/categories/")
                 .permitAll()
