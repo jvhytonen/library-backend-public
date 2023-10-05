@@ -8,10 +8,11 @@ import com.rest_api.fs14backend.exceptions.NotFoundException;
 import com.rest_api.fs14backend.exceptions.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -79,6 +80,6 @@ public class BookService {
     }
 
     public Page<Book> getBooksByPage(Pageable pageable) {
-        return bookRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+        return bookRepository.findAll(pageable);
     }
 }

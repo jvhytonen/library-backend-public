@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +52,7 @@ public class BookController {
 
     @GetMapping(value="/list/")
     public ResponseEntity<Book> getBooks(@RequestParam int page, @RequestParam int size) {
-        Pageable pageable = (Pageable) PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size);
         Page<Book> books = bookService.getBooksByPage(pageable);
         return ResponseEntity.ok((Book) books);
     }
