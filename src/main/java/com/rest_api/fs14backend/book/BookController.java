@@ -49,12 +49,14 @@ public class BookController {
         List<Book> booksByAuthorId = bookService.getBooksByAuthorId(id);
         return ResponseEntity.ok(booksByAuthorId);
     }
-
+    @GetMapping(value="/bySearchQuery/")
+    public ResponseEntity<Page<Book>> getBookBySearchQuery(@RequestParam int page, @RequestParam int size, @RequestParam  String query) throws Exception {
+        Page<Book> booksByQuery = bookService.searchByQuery(page, size, query);
+        return ResponseEntity.ok(booksByQuery);
+    }
     @GetMapping(value="/list/")
     public ResponseEntity<Page<Book>> getBooks(@RequestParam int page, @RequestParam int size) {
-        //This is to fix the confusion in Page Request.
-        Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
-        Page<Book> books = bookService.getBooksByPage(pageable);
+        Page<Book> books = bookService.getBooksByPage(page, size);
         return ResponseEntity.ok(books);
     }
     @GetMapping(value = "/{id}")

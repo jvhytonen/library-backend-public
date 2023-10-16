@@ -8,6 +8,8 @@ import com.rest_api.fs14backend.exceptions.NotFoundException;
 import com.rest_api.fs14backend.exceptions.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,11 @@ public class BookService {
     private BookMapper bookMapper;
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    // Page request-object.
+    private Pageable createPageRequestUsing(int page, int size) {
+        return PageRequest.of(page, size);
     }
 
     public Book createOne(BookDTO newBook) throws Exception {
@@ -79,7 +86,18 @@ public class BookService {
         return bookRepository.findByAuthorId(id);
     }
 
-    public Page<Book> getBooksByPage(Pageable pageable) {
+    public Page<Book> getBooksByPage(int page, int size) {
+        //This is to fix the confusion in Page Request. One can use several Page Requests from multiple libraries.
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
         return bookRepository.findAll(pageable);
+    }
+
+    public Page<Book> searchByQuery(int page, int size, String query) {
+        Pageable pageRequest = createPageRequestUsing(page, size);
+        List<Book> allBooksByQuery = bookRepository.searchBooks(query);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), allBooksByQuery.size());
+        List<Book> pageContent = allBooksByQuery.subList(start, end);
+        return new PageImpl<>(pageContent, pageRequest, allBooksByQuery.size());
     }
 }
