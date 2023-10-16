@@ -88,19 +88,21 @@ public class BookService {
 
     public Page<Book> getBooksByPage(int page, int size, String query) {
         Pageable pageRequest = createPageRequestUsing(page, size);
-        List<Book> allBooks = bookRepository.findAll();
+        List<Book> books = queryItems(query);
         int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), allBooks.size());
-        List<Book> pageContent = allBooks.subList(start, end);
-        return new PageImpl<>(pageContent, pageRequest, allBooks.size());
+        int end = Math.min((start + pageRequest.getPageSize()), books.size());
+        List<Book> pageContent = books.subList(start, end);
+        return new PageImpl<>(pageContent, pageRequest, books.size());
     }
 
-    public Page<Book> searchByQuery(int page, int size, String query) {
-        Pageable pageRequest = createPageRequestUsing(page, size);
-        List<Book> allBooksByQuery = bookRepository.searchBooks(query);
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()), allBooksByQuery.size());
-        List<Book> pageContent = allBooksByQuery.subList(start, end);
-        return new PageImpl<>(pageContent, pageRequest, allBooksByQuery.size());
+    public List<Book> queryItems(String query) {
+        if (query == null || query.isEmpty()) {
+            List<Book> allBooks = bookRepository.findAll();
+            return allBooks;
+        }
+        else {
+            List<Book> queriedBooks = bookRepository.searchBooks(query);
+            return queriedBooks;
+        }
     }
 }
