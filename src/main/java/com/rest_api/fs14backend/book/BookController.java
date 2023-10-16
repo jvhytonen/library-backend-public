@@ -50,7 +50,7 @@ public class BookController {
         return ResponseEntity.ok(booksByAuthorId);
     }
     @GetMapping(value="/bySearchQuery/")
-    public ResponseEntity<Page<Book>> getBookBySearchQuery(@RequestParam int page, @RequestParam int size, @RequestParam  String query) throws Exception {
+    public ResponseEntity<Page<Book>> getBookBySearchQuery(@RequestParam int page, @RequestParam int size, @RequestParam String query) throws Exception {
         Page<Book> booksByQuery = bookService.searchByQuery(page, size, query);
         return ResponseEntity.ok(booksByQuery);
     }
