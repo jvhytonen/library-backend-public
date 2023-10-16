@@ -86,10 +86,13 @@ public class BookService {
         return bookRepository.findByAuthorId(id);
     }
 
-    public Page<Book> getBooksByPage(int page, int size) {
-        //This is to fix the confusion in Page Request. One can use several Page Requests from multiple libraries.
-        Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
-        return bookRepository.findAll(pageable);
+    public Page<Book> getBooksByPage(int page, int size, String query) {
+        Pageable pageRequest = createPageRequestUsing(page, size);
+        List<Book> allBooks = bookRepository.findAll();
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), allBooks.size());
+        List<Book> pageContent = allBooks.subList(start, end);
+        return new PageImpl<>(pageContent, pageRequest, allBooks.size());
     }
 
     public Page<Book> searchByQuery(int page, int size, String query) {

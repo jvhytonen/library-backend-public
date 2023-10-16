@@ -55,8 +55,8 @@ public class BookController {
         return ResponseEntity.ok(booksByQuery);
     }
     @GetMapping(value="/list/")
-    public ResponseEntity<Page<Book>> getBooks(@RequestParam int page, @RequestParam int size) {
-        Page<Book> books = bookService.getBooksByPage(page, size);
+    public ResponseEntity<Page<Book>> getBooks(@RequestParam int page, @RequestParam int size, @RequestParam(defaultValue = "") String query) {
+        Page<Book> books = bookService.getBooksByPage(page, size, query);
         return ResponseEntity.ok(books);
     }
     @GetMapping(value = "/{id}")
