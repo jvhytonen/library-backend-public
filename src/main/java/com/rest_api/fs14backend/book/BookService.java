@@ -102,6 +102,7 @@ public class BookService {
         }
         else {
             List<Book> queriedBooks = bookRepository.searchBooks(query);
+            System.out.println(queriedBooks.size());
             return queriedBooks;
         }
     }
