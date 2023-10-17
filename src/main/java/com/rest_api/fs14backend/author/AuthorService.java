@@ -67,4 +67,7 @@ public class AuthorService {
         authorToEdit.setDescription(updatedAuthor.getDescription());
         return authorToEdit;
     }
+    public Author queryByString(String query) {
+        return authorRepository.findAuthorByQuery(query);
+    }
 }

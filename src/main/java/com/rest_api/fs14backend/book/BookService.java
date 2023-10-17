@@ -86,6 +86,8 @@ public class BookService {
         return bookRepository.findByAuthorId(id);
     }
 
+    public List<Book> getBooksByCategoryId(UUID id) {return bookRepository.findByCategoryId(id);}
+
     public Page<Book> getBooksByPage(int page, int size, String query) {
         Pageable pageRequest = createPageRequestUsing(page, size);
         List<Book> books = queryItems(query);
@@ -96,14 +98,52 @@ public class BookService {
     }
 
     public List<Book> queryItems(String query) {
+        // If the string is empty, we search all books.
         if (query == null || query.isEmpty()) {
             List<Book> allBooks = bookRepository.findAll();
             return allBooks;
         }
+        // Otherwise we find all authors, categories and books, where the query exists.
         else {
-            List<Book> queriedBooks = bookRepository.searchBooks(query);
-            System.out.println(queriedBooks.size());
+            List<Book> booksWithinQuery = bookRepository.searchBooksByQuery(query);
+            List<Book> booksByAuthorsWithinQuery = queryAuthors(query);
+            List<Book> booksByCategoriesWithinQuery = queryCategories(query);
+            List<Book> queriedBooks = combineQueriedItems(booksWithinQuery, booksByAuthorsWithinQuery, booksByCategoriesWithinQuery);
             return queriedBooks;
         }
+    }
+    public List<Book> queryAuthors(String query) {
+        List<Book> booksByQueriedAuthors = new ArrayList<>();
+        // We pick the author if the query exists in his/hers name.
+        List<Author> matchingAuthors = (List<Author>) authorService.queryByString(query);
+        // And find books that are written by this author.
+        for(Author author: matchingAuthors) {
+            List<Book> booksByAuthor = getBooksByAuthorId(author.getId());
+            booksByQueriedAuthors.addAll(booksByAuthor);
+        }
+        return booksByQueriedAuthors;
+    }
+    public List<Book> queryCategories(String query) {
+        List<Book> booksByQueriedCategories = new ArrayList<>();
+        // We pick the category if the query exists in the category name.
+        List<Category> matchingCategories = (List<Category>) categoryService.queryByString(query);
+        // And find books that are in this category.
+        for(Category category: matchingCategories) {
+            List<Book> booksByCategory = getBooksByCategoryId(category.getId());
+            booksByQueriedCategories.addAll(booksByCategory);
+        }
+        return booksByQueriedCategories;
+    }
+    public List<Book> combineQueriedItems(List<Book> queriedBooks, List<Book> queriedAuthors, List<Book> queriedCategories) {
+        List<Book> allQueriedBooks = new ArrayList<>();
+        Set<UUID> uniqueBookIds = new HashSet<>();
+        for(List<Book> list : Arrays.asList(queriedBooks, queriedAuthors, queriedCategories)){
+            for(Book book : list) {
+                if(uniqueBookIds.add(book.getId())){
+                    allQueriedBooks.add(book);
+                }
+            }
+        }
+        return allQueriedBooks;
     }
 }

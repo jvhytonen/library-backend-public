@@ -1,5 +1,6 @@
 package com.rest_api.fs14backend.category;
 
+import com.rest_api.fs14backend.author.Author;
 import com.rest_api.fs14backend.book.Book;
 import com.rest_api.fs14backend.book.BookRepository;
 import com.rest_api.fs14backend.exceptions.CustomException;
@@ -23,7 +24,7 @@ public class CategoryService {
     this.bookRepository = bookRepository;
   }
 
-  public Category createOne(Category category) throws Exception{
+  public Category createOne(Category category) throws Exception {
     if (category == null) {
       throw new IllegalStateException("Data cannot be null!");
     }
@@ -48,8 +49,8 @@ public class CategoryService {
             .orElse(null);
     // If the category is still related to a book, it cannot be removed.
     if (null != bookEntity) {
-     throw new CustomException("Cannot remove a category that is used by at least one book");
-    }  else {
+      throw new CustomException("Cannot remove a category that is used by at least one book");
+    } else {
       Category deletedCategory = categoryRepository.findById(id).orElseThrow(() -> new CustomException("No category with such id found"));
       categoryRepository.delete(deletedCategory);
       return deletedCategory;
@@ -58,12 +59,16 @@ public class CategoryService {
 
   @Transactional
   public CategoryDTO update(UUID id, CategoryDTO newCategory) throws Exception {
-   Category categoryToEdit = categoryRepository.findById(id).orElseThrow(() -> new CustomException("No category with such id found!"));
-      categoryToEdit.setName(newCategory.getName());
-      return newCategory;
+    Category categoryToEdit = categoryRepository.findById(id).orElseThrow(() -> new CustomException("No category with such id found!"));
+    categoryToEdit.setName(newCategory.getName());
+    return newCategory;
   }
 
   public List<Category> findAll() {
     return categoryRepository.findAll();
+  }
+
+  public Category queryByString(String query) {
+    return categoryRepository.findCategoryByQuery(query);
   }
 }

@@ -12,5 +12,7 @@ public interface AuthorRepository extends JpaRepository<Author, UUID> {
 
     @Query("SELECT s FROM Author s WHERE s.id = ?1")
     public Author findAuthorById(UUID id);
+    @Query("SELECT a FROM Author a WHERE a.name LIKE CONCAT('%',:query, '%')")
+    public Author findAuthorByQuery(String query);
 }
 
