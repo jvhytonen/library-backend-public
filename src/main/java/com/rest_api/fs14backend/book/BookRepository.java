@@ -13,7 +13,7 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     List<Book> findByCategoryId(UUID authorId);
 
     @Query("SELECT b FROM Book b WHERE " +
-            "b.title LIKE CONCAT('%',:query, '%')" +
-            "Or b.description LIKE CONCAT('%', :query, '%')")
+            "LOWER(b.title) LIKE CONCAT('%',LOWER(:query), '%')" +
+            "Or LOWER(b.description) LIKE CONCAT('%', LOWER(:query), '%')")
     List<Book> searchBooksByQuery(String query);
 }

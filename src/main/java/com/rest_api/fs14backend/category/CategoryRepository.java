@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
-    @Query("SELECT a FROM Category a WHERE a.name LIKE CONCAT('%',:query, '%')")
+    @Query("SELECT a FROM Category a WHERE LOWER(a.name) LIKE CONCAT('%',LOWER(:query), '%')")
     public List<Category> findCategoryByQuery(String query);
 }

@@ -89,6 +89,7 @@ public class BookService {
     public List<Book> getBooksByCategoryId(UUID id) {return bookRepository.findByCategoryId(id);}
 
     public Page<Book> getBooksByPage(int page, int size, String query) {
+        // Pagination from Spring Data Pageable.
         Pageable pageRequest = createPageRequestUsing(page, size);
         List<Book> books = queryItems(query);
         int start = (int) pageRequest.getOffset();
