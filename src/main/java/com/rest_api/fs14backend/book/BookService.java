@@ -115,7 +115,8 @@ public class BookService {
     public List<Book> queryAuthors(String query) {
         List<Book> booksByQueriedAuthors = new ArrayList<>();
         // We pick the author if the query exists in his/hers name.
-        List<Author> matchingAuthors = (List<Author>) authorService.queryByString(query);
+        List<Author> matchingAuthors = authorService.queryByString(query);
+
         // And find books that are written by this author.
         for(Author author: matchingAuthors) {
             List<Book> booksByAuthor = getBooksByAuthorId(author.getId());

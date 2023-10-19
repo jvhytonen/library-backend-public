@@ -68,7 +68,7 @@ public class CategoryService {
     return categoryRepository.findAll();
   }
 
-  public Category queryByString(String query) {
+  public List<Category> queryByString(String query) {
     return categoryRepository.findCategoryByQuery(query);
   }
 }
