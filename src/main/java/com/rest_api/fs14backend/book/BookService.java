@@ -109,15 +109,15 @@ public class BookService {
             List<Book> booksWithinQuery = bookRepository.searchBooksByQuery(query);
             List<Book> booksByAuthorsWithinQuery = queryAuthors(query);
             List<Book> booksByCategoriesWithinQuery = queryCategories(query);
-            List<Book> queriedBooks = combineQueriedItems(booksWithinQuery, booksByAuthorsWithinQuery, booksByCategoriesWithinQuery);
-            return queriedBooks;
+            // We combine the three lists.
+            List<Book> combinedBookList = combineQueriedItems(booksWithinQuery, booksByAuthorsWithinQuery, booksByCategoriesWithinQuery);
+            return combinedBookList;
         }
     }
     public List<Book> queryAuthors(String query) {
         List<Book> booksByQueriedAuthors = new ArrayList<>();
         // We pick the author if the query exists in his/hers name.
         List<Author> matchingAuthors = authorService.queryByString(query);
-
         // And find books that are written by this author.
         for(Author author: matchingAuthors) {
             List<Book> booksByAuthor = getBooksByAuthorId(author.getId());
@@ -137,15 +137,17 @@ public class BookService {
         return booksByQueriedCategories;
     }
     public List<Book> combineQueriedItems(List<Book> queriedBooks, List<Book> queriedAuthors, List<Book> queriedCategories) {
-        List<Book> allQueriedBooks = new ArrayList<>();
+        List<Book> combinedBookList = new ArrayList<>();
+        // This is to remove duplicates.
         Set<UUID> uniqueBookIds = new HashSet<>();
         for(List<Book> list : Arrays.asList(queriedBooks, queriedAuthors, queriedCategories)){
             for(Book book : list) {
+                // HashSet accepts only unique values so the book will be added only if the bookId is not already there.
                 if(uniqueBookIds.add(book.getId())){
-                    allQueriedBooks.add(book);
+                    combinedBookList.add(book);
                 }
             }
         }
-        return allQueriedBooks;
+        return combinedBookList;
     }
 }
