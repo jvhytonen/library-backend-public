@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,6 +28,11 @@ public class CategoryService {
   public Category createOne(Category category) throws Exception {
     if (category == null) {
       throw new IllegalStateException("Data cannot be null!");
+    }
+    //Check if there already exists a category with that name.
+    Optional<Category> existingCategory = categoryRepository.findByName(category.getName());
+    if (existingCategory.isPresent()) {
+      throw new Exception("Category with the same name already exists");
     }
     return categoryRepository.save(category);
   }
