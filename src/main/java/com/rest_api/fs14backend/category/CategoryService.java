@@ -32,7 +32,7 @@ public class CategoryService {
     //Check if there already exists a category with that name.
     Optional<Category> existingCategory = categoryRepository.findByName(category.getName());
     if (existingCategory.isPresent()) {
-      throw new Exception("Category with the same name already exists");
+      throw new CustomException("Category with the same name already exists");
     }
     return categoryRepository.save(category);
   }
