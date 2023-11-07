@@ -1,48 +1,32 @@
-# Backend Assignment (Team work)
+# Backend of my library app.
 
-`Choose one of the assignments based on what you've been working on so far`
+This is the repo of my backend. You can find the frontend at: [https://stately-starship-e19365.netlify.app](https://stately-starship-e19365.netlify.app)
 
-<br />
+## Implemented with Java Spring, PostgreSQL, AWS SDK S3 and Docker
 
-### Option 1:
+This backend uses multiple features of Java Spring. Database used is Postgres. Every book has cover images and they are uploaded to AWS S3 -bucket. The image arrives from frontend to backend and then is uploaded to AWS by using AWS SDK Client.
 
-Implement REST APIs for the library management system
+## REST API
 
-### Option 2:
+This backend uses Spring Boot structure
+- Entities as data structures
+- Controllers for handling incoming and returning HTTP-requests.
+- Services for handling the business logic
+- Repositories for persisting and accessing data.
+- In case needed: Data Transfer Object to convert data to a correct form.
 
-Implement REST APIs for the e-commerce site
+The user can:
+- Log in and log out.
+- Borrow book copies and return them
 
-## What should you be doing
+The admin can:
+- Add new books, authors and copies
+- Delete and update existing books, authors and copies
 
-implement a basic endpoints as a team and gradually make it more complex, like data modeling.
+The backend makes sure that:
+- Only authenticated users can borrow and return books
+- That the database will not be broken (i.e. Backend checks that Admin won't remove rows that are foreign keys in another table row)
 
-it should be a functional backend with real database persistence
-
-Database to use: SQL over NoSQL. so either PostgreSQL or MySQL
-
-<br />
-
-### What are the things should be done for this backend assignment
-
-1. build basic tables schema
-2. basic routes CRUD requests
-3. build references between table
-4. build/refactor routes to fulfill the referencing (create book with an author/s id)
-5. handling errors and request validation
-6. Authentication/authoraization
-
-<br />
-
-`Resources/Topics that could help you:`
-
-1. [Learn DTO pattern](https://www.youtube.com/watch?v=THv-TI1ZNMk&t=1526s)
-2. [How to connect PostgreSQL and Docker to Spring Boot application](https://www.youtube.com/watch?v=A8qZUF-GcKo)
-
-<br />
-
-`How to proceed:`
-
-- Group leader would fork this repo
-- Group member would clone the origin (the leader's forked repo)
-- all of you work from that origin
-- leader open a PR as soon as you have something to show and wants a review
+## Authentication
+- Implemented with Spring Security. Passwords are saved into the database as encoded.
+- Authentication is implemented with tokens saved in headers. JWT Filter and SecurityConfig will check that the session is not expired and the holder of the token is allowed to proceed the actions she is doing.
