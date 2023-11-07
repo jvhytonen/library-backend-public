@@ -38,3 +38,5 @@ src/main/resources/application.properties
 ### Environment values ###
 
 .env
+
+**/application.properties
